@@ -1,0 +1,140 @@
+{
+  "by_strat": {
+    "eval:hard:non_poetry": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "nonpoem:social:-": {
+      "n": 57,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "poem:classic": {
+      "n": 221,
+      "acc": 0.9909502262443439,
+      "n_true_poem": 221,
+      "n_pred_poem": 219,
+      "precision_poem": 1.0,
+      "recall_poem": 0.9909502262443439
+    },
+    "poem:modern": {
+      "n": 79,
+      "acc": 0.9620253164556962,
+      "n_true_poem": 79,
+      "n_pred_poem": 76,
+      "precision_poem": 1.0,
+      "recall_poem": 0.9620253164556962
+    },
+    "racter:乌鸦与鹰与鸽": {
+      "n": 1,
+      "acc": 0.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 1,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:保罗与琼": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:劳特与琼的对话": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:夜空与黑原": {
+      "n": 1,
+      "acc": 0.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 1,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:愚智之作·第11号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:愚智之作·第5号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:愚智之作·第8号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:本顿与莉萨": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:梦见飞翔": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:海伦与圆锥曲线": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:疲惫的屠夫": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:空荡的密室": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    },
+    "racter:论爱（开篇）": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0
+    }
+  }
+}

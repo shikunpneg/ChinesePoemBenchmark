@@ -1,0 +1,60 @@
+{
+  "stage": "stage2",
+  "round": 12,
+  "timestamp": "2026-08-15T15:20:10",
+  "features_added": [
+    "style_news_word_density",
+    "style_news_phrase_density",
+    "style_forum_filler_density",
+    "style_avg_para_len"
+  ],
+  "n_ai_neg": 32,
+  "n_boost_neg": 0,
+  "n_v2_fp_social_train": 0,
+  "n_v2_fp_news_train": 0,
+  "val_results": {
+    "v2 (frozen)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9317952017648681
+    },
+    "v5a (style only)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9317952017648681
+    },
+    "v5b (+AI neg + boost neg)": {
+      "acc": 0.9865229110512129,
+      "kappa": 0.956688225267926
+    },
+    "v5c (+only boost neg)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9317952017648681
+    }
+  },
+  "ai_results": {
+    "v2 (frozen)": {
+      "acc": 0.8181818181818182,
+      "kappa": -0.011977573904179417,
+      "fp": 31,
+      "fn": 7
+    },
+    "v5a (style only)": {
+      "acc": 0.8181818181818182,
+      "kappa": -0.011977573904179417,
+      "fp": 31,
+      "fn": 7
+    },
+    "v5b (+AI neg + boost neg)": {
+      "acc": 0.7607655502392344,
+      "kappa": 0.4375067283884164,
+      "fp": 0,
+      "fn": 50
+    },
+    "v5c (+only boost neg)": {
+      "acc": 0.8181818181818182,
+      "kappa": -0.011977573904179417,
+      "fp": 31,
+      "fn": 7
+    }
+  },
+  "elapsed_sec": 105.7
+}

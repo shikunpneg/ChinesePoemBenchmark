@@ -1,0 +1,58 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb
+
+# --- Editors / OS ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+~$*.docx
+
+# --- Secrets / credentials ---
+.env
+*.pem
+*.key
+secrets/
+*.crt
+
+# --- Heavy runtime artifacts (excluded from VCS) ---
+.hf_cache/
+*.safetensors
+*.bin
+*.pt
+*.gguf
+*.pkl
+wandb/
+runs/
+checkpoints/
+
+# --- Optional experiment intermediates (can be re-derived) ---
+*.jsonl.gz
+*.parquet
+*.arrow
+
+# --- Local-only references (project mentions but does not own) ---
+# E:\生成诗歌\  is the source dataset; not part of this repo.
+# (do NOT list as path; just a comment)
+
+# --- Frozen metric snapshots (large; regenerated on demand) ---
+# /05_experiments/stage2_hard_samples/round_*/frozen_metric.pkl

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "base_bigram_jacc_to_poem",
+    "coef": 1.7919167113980965
+  },
+  {
+    "name": "base_bleu_to_nonpoem",
+    "coef": -1.6999367223774946
+  },
+  {
+    "name": "base_bleu_to_poem",
+    "coef": 1.6701760179951026
+  },
+  {
+    "name": "base_bigram_jacc_to_nonpoem",
+    "coef": -1.6523335565491535
+  },
+  {
+    "name": "struct_short_line_ratio",
+    "coef": 0.8381521405435104
+  },
+  {
+    "name": "form_classical_match",
+    "coef": 0.8054384260677586
+  },
+  {
+    "name": "form_line_char_var",
+    "coef": 0.6322934351952164
+  },
+  {
+    "name": "jump_line_density_var",
+    "coef": -0.569299978308787
+  },
+  {
+    "name": "base_tfidf_cos_to_poem",
+    "coef": 0.5508622500183369
+  },
+  {
+    "name": "form_line_count",
+    "coef": 0.3182291115058805
+  },
+  {
+    "name": "jump_connector_density",
+    "coef": 0.23495792477979868
+  },
+  {
+    "name": "struct_line_ending_punct",
+    "coef": -0.22801199864212032
+  },
+  {
+    "name": "music_pattern_regularity",
+    "coef": 0.21966242249759585
+  },
+  {
+    "name": "struct_n_lines",
+    "coef": -0.20012369713644212
+  },
+  {
+    "name": "form_n_lines_score",
+    "coef": -0.19585398297572704
+  },
+  {
+    "name": "jump_char_per_line",
+    "coef": 0.12847446569686177
+  },
+  {
+    "name": "music_ping_ze_balance",
+    "coef": 0.07970334164435587
+  },
+  {
+    "name": "music_final_char_ping_ratio",
+    "coef": -0.07504764648880251
+  }
+]

@@ -1,0 +1,110 @@
+{
+  "stage": "stage2",
+  "round": 8,
+  "timestamp": "2026-08-14T22:51:42",
+  "method": "filter ALL annotators (not just annotator_01) by indicator confidence",
+  "threshold": 0.85,
+  "sensitivity": {
+    "0.5": {
+      "n_filtered": 219,
+      "n_after": 467,
+      "fleiss_kappa": 1.0,
+      "ind_vs_majority_kappa": 1.0
+    },
+    "0.65": {
+      "n_filtered": 214,
+      "n_after": 472,
+      "fleiss_kappa": 0.8222222222222222,
+      "ind_vs_majority_kappa": 0.97702022220446
+    },
+    "0.8": {
+      "n_filtered": 207,
+      "n_after": 479,
+      "fleiss_kappa": 0.8222222222222222,
+      "ind_vs_majority_kappa": 0.9457985143918292
+    },
+    "0.85": {
+      "n_filtered": 202,
+      "n_after": 484,
+      "fleiss_kappa": 0.8222222222222222,
+      "ind_vs_majority_kappa": 0.9241673912221676
+    },
+    "0.9": {
+      "n_filtered": 200,
+      "n_after": 486,
+      "fleiss_kappa": 0.8222222222222222,
+      "ind_vs_majority_kappa": 0.9156694196303163
+    },
+    "0.95": {
+      "n_filtered": 194,
+      "n_after": 492,
+      "fleiss_kappa": 0.8564102564102565,
+      "ind_vs_majority_kappa": 0.8989354856501994
+    }
+  },
+  "noise_by_user": {
+    "annotator_01": 189,
+    "annotator_04": 3,
+    "annotator_02": 8,
+    "annotator_06": 2
+  },
+  "noise_total": 202,
+  "n_after": 484,
+  "per_annotator_post_filter": {
+    "annotator_01": {
+      "n": 461,
+      "n_yes_human": 278,
+      "n_ind_yes": 292,
+      "acc": 0.9696312364425163,
+      "kappa_quadratic": 0.9357286542253381
+    },
+    "annotator_02": {
+      "n": 17,
+      "n_yes_human": 9,
+      "n_ind_yes": 10,
+      "acc": 0.9411764705882353,
+      "kappa_quadratic": 0.8811188811188811
+    },
+    "annotator_04": {
+      "n": 5,
+      "n_yes_human": 2,
+      "n_ind_yes": 4,
+      "acc": 0.6,
+      "kappa_quadratic": 0.2857142857142857
+    },
+    "annotator_06": {
+      "n": 1,
+      "n_yes_human": 0,
+      "n_ind_yes": 0,
+      "acc": 1.0,
+      "kappa_quadratic": NaN
+    }
+  },
+  "fleiss_kappa_post_filter": {
+    "n_items": 12,
+    "n_raters_min": 2,
+    "n_raters_max": 2,
+    "n_raters_mean": 2.0,
+    "P_bar": 0.9166666666666666,
+    "Pe": 0.53125,
+    "kappa": 0.8222222222222222
+  },
+  "pairwise_cohen_post_filter": {
+    "annotator_01~annotator_02": {
+      "n": 9,
+      "kappa": 1.0,
+      "agree_rate": 1.0
+    },
+    "annotator_01~annotator_04": {
+      "n": 3,
+      "kappa": 0.0,
+      "agree_rate": 0.6666666666666666
+    }
+  },
+  "ind_vs_majority_post_filter": {
+    "n": 472,
+    "acc": 0.9639830508474576,
+    "kappa": 0.9241673912221676
+  },
+  "elapsed_sec": 30.8
+}

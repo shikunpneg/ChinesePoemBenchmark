@@ -1,0 +1,123 @@
+{
+  "stage": "stage2",
+  "round": 13,
+  "timestamp": "2026-08-15T15:22:21",
+  "method": "L2 sub-metric analysis (family-by-family ablation)",
+  "family_features": {
+    "form": [
+      "form_line_count",
+      "form_line_char_var",
+      "form_classical_match",
+      "form_n_lines_score"
+    ],
+    "struct": [
+      "struct_n_lines",
+      "struct_line_ending_punct",
+      "struct_short_line_ratio"
+    ],
+    "jump": [
+      "jump_connector_density",
+      "jump_char_per_line",
+      "jump_line_density_var"
+    ],
+    "lang": [
+      "lang_imagery_density",
+      "lang_classical_marker_density",
+      "lang_prose_particle_density",
+      "lang_line_break_existence"
+    ],
+    "purity": [
+      "purity_han_ratio",
+      "purity_no_english",
+      "purity_no_digit",
+      "purity_line_cleanliness"
+    ],
+    "style": [
+      "style_news_word_density",
+      "style_news_phrase_density",
+      "style_forum_filler_density",
+      "style_avg_para_len"
+    ],
+    "music": [
+      "music_pattern_regularity",
+      "music_ping_ze_balance",
+      "music_final_char_ping_ratio"
+    ]
+  },
+  "n_features_per_family": {
+    "form": 4,
+    "struct": 3,
+    "jump": 3,
+    "lang": 4,
+    "purity": 4,
+    "style": 4,
+    "music": 3
+  },
+  "n_train": 1516,
+  "single_family_results": {
+    "form": {
+      "acc": 0.9838274932614556,
+      "kappa": 0.9477464788732395,
+      "n_features": 4
+    },
+    "struct": {
+      "acc": 0.9757412398921833,
+      "kappa": 0.9203349796006013,
+      "n_features": 3
+    },
+    "jump": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9295714489108253,
+      "n_features": 3
+    },
+    "lang": {
+      "acc": 0.9757412398921833,
+      "kappa": 0.9203349796006013,
+      "n_features": 4
+    },
+    "purity": {
+      "acc": 0.9757412398921833,
+      "kappa": 0.918555016220699,
+      "n_features": 4
+    },
+    "style": {
+      "acc": 0.9730458221024259,
+      "kappa": 0.9109970252375013,
+      "n_features": 4
+    },
+    "music": {
+      "acc": 0.9703504043126685,
+      "kappa": 0.9015559039922808,
+      "n_features": 3
+    },
+    "baseline": {
+      "acc": 0.9703504043126685,
+      "kappa": 0.9015559039922808,
+      "n_features": 5
+    }
+  },
+  "v4b_full_kappa": 0.956688225267926,
+  "v2_baseline_kappa": 0.9317952017648681,
+  "l2_meta_kappa": 0.9015559039922808,
+  "l2_meta_acc": 0.9703504043126685,
+  "family_importance_from_meta_coef": {
+    "form": 0.9368481643012436,
+    "struct": 0.6026492661849314,
+    "jump": 0.8390177673885709,
+    "lang": 0.7839475342802462,
+    "purity": 0.8398391490465535,
+    "style": 0.7078154086268992,
+    "music": 0.6564214610139424,
+    "baseline": 0.6505363625602097
+  },
+  "ablation_importance": {
+    "form": -0.0080974991874867,
+    "struct": 0.017980146629234417,
+    "jump": -0.008846634688411958,
+    "lang": 0.0,
+    "purity": -0.008846634688411958,
+    "style": -0.017324709892829637,
+    "music": 0.0
+  },
+  "elapsed_sec": 78.1
+}

@@ -1,0 +1,33 @@
+{
+  "stage": "stage2",
+  "round": 9,
+  "timestamp": "2026-08-14T23:05:26",
+  "n_annotator_06": 424,
+  "n_matched": 209,
+  "db_label_distribution": {
+    "1": 209
+  },
+  "human_distribution": {
+    "0": 32,
+    "1": 177
+  },
+  "metric_distribution": {
+    "0": 2,
+    "1": 207
+  },
+  "metric_vs_human": {
+    "accuracy": 0.84688995215311,
+    "kappa_quadratic": 0.0415591860131842
+  },
+  "metric_vs_db": {
+    "accuracy": 0.9904306220095693,
+    "kappa_quadratic": null
+  },
+  "disagreement_confusion": {
+    "human0_metric0": 1,
+    "human0_metric1": 31,
+    "human1_metric0": 1,
+    "human1_metric1": 176
+  },
+  "elapsed_sec": 13.4
+}

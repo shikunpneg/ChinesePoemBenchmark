@@ -1,0 +1,701 @@
+{
+  "stage": "stage2",
+  "round": 2,
+  "timestamp": "2026-08-14T21:38:11",
+  "frozen_metric_features": [
+    "form_line_count",
+    "form_line_char_var",
+    "form_classical_match",
+    "form_n_lines_score",
+    "struct_n_lines",
+    "struct_line_ending_punct",
+    "struct_short_line_ratio",
+    "jump_connector_density",
+    "jump_char_per_line",
+    "jump_line_density_var",
+    "lang_imagery_density",
+    "lang_classical_marker_density",
+    "lang_prose_particle_density",
+    "lang_line_break_existence",
+    "music_pattern_regularity",
+    "music_ping_ze_balance",
+    "music_final_char_ping_ratio",
+    "base_bleu_to_poem",
+    "base_bleu_to_nonpoem",
+    "base_bigram_jacc_to_poem",
+    "base_bigram_jacc_to_nonpoem",
+    "base_tfidf_cos_to_poem"
+  ],
+  "neon_db_stats": {
+    "users": 4,
+    "samples": 109369,
+    "assignments": 2400,
+    "annotations": 0,
+    "multi_rater_samples": 0
+  },
+  "datasets": {
+    "v2_corpus": 1855,
+    "expert_corpus": 100
+  },
+  "overall": {
+    "n_total": 1855,
+    "accuracy": 0.9951482479784367,
+    "kappa_quadratic": 0.9844077610964533,
+    "f1_macro": 0.992203789532671,
+    "brier": 0.003507891111653558,
+    "log_loss": 0.014140600593212684
+  },
+  "calibration": {
+    "bins": [
+      {
+        "range": [
+          0.0,
+          0.1
+        ],
+        "n": 346,
+        "mean_pred": 0.005616361115704668,
+        "frac_positive": 0.002890173410404624,
+        "calibration_gap": -0.002726187705300044
+      },
+      {
+        "range": [
+          0.1,
+          0.2
+        ],
+        "n": 5,
+        "mean_pred": 0.1468005074798126,
+        "frac_positive": 0.2,
+        "calibration_gap": 0.05319949252018741
+      },
+      {
+        "range": [
+          0.2,
+          0.3
+        ],
+        "n": 4,
+        "mean_pred": 0.25021150744414256,
+        "frac_positive": 0.0,
+        "calibration_gap": -0.25021150744414256
+      },
+      {
+        "range": [
+          0.3,
+          0.4
+        ],
+        "n": 1,
+        "mean_pred": 0.3671592960448036,
+        "frac_positive": 1.0,
+        "calibration_gap": 0.6328407039551964
+      },
+      {
+        "range": [
+          0.4,
+          0.5
+        ],
+        "n": 4,
+        "mean_pred": 0.4660861732136441,
+        "frac_positive": 1.0,
+        "calibration_gap": 0.5339138267863559
+      },
+      {
+        "range": [
+          0.5,
+          0.6
+        ],
+        "n": 3,
+        "mean_pred": 0.545586076754703,
+        "frac_positive": 1.0,
+        "calibration_gap": 0.45441392324529695
+      },
+      {
+        "range": [
+          0.6,
+          0.7
+        ],
+        "n": 2,
+        "mean_pred": 0.6456929904137445,
+        "frac_positive": 1.0,
+        "calibration_gap": 0.3543070095862555
+      },
+      {
+        "range": [
+          0.7,
+          0.8
+        ],
+        "n": 7,
+        "mean_pred": 0.7726444908121055,
+        "frac_positive": 0.8571428571428571,
+        "calibration_gap": 0.08449836633075158
+      },
+      {
+        "range": [
+          0.8,
+          0.9
+        ],
+        "n": 15,
+        "mean_pred": 0.8406555741486693,
+        "frac_positive": 0.9333333333333333,
+        "calibration_gap": 0.09267775918466403
+      },
+      {
+        "range": [
+          0.9,
+          1.01
+        ],
+        "n": 1468,
+        "mean_pred": 0.9971648884646177,
+        "frac_positive": 1.0,
+        "calibration_gap": 0.0028351115353822953
+      }
+    ],
+    "summary": {
+      "ece": 0.007112698072478046,
+      "mce": 0.6328407039551964,
+      "n": 1855
+    }
+  },
+  "uncertain_zone": {
+    "range": [
+      0.3,
+      0.7
+    ],
+    "n": 10,
+    "fraction": 0.005390835579514825,
+    "by_strat": {
+      "poem:classic": 2,
+      "poem:modern": 8
+    },
+    "by_source_type": {
+      "classic": 2,
+      "modern": 8
+    },
+    "by_label": {
+      "1": 10
+    },
+    "n_misclassified": 5
+  },
+  "per_stratification": {
+    "eval:hard:non_poetry": {
+      "n": 5,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "nonpoem:social:-": {
+      "n": 300,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "poem:classic": {
+      "n": 1097,
+      "acc": 0.9981768459434822,
+      "n_true_poem": 1097,
+      "n_pred_poem": 1095,
+      "precision_poem": 1.0,
+      "recall_poem": 0.9981768459434822,
+      "f1_poem": 0.9990875912408759
+    },
+    "poem:modern": {
+      "n": 403,
+      "acc": 0.9875930521091811,
+      "n_true_poem": 403,
+      "n_pred_poem": 398,
+      "precision_poem": 1.0,
+      "recall_poem": 0.9875930521091811,
+      "f1_poem": 0.9937578027465668
+    },
+    "racter:三人的故土": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:乌鸦与鹰与鸽": {
+      "n": 1,
+      "acc": 0.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 1,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:保罗与琼": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:切脸": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:劳特与比尔的对话": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:劳特与琼的对话": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:半明半暗的天空": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:外套与胸罩": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:夜空与黑原": {
+      "n": 1,
+      "acc": 0.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 1,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第10号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第11号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第12号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第13号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第14号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第15号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第16号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第17号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第18号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第1号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第2号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第3号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第4号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第5号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第6号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第7号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第8号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:愚智之作·第9号": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:我需要电": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:本顿与海伦": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:本顿与莉萨": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:梦见飞翔": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:比尔与玛塞拉": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:比尔与萨拉": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:比尔与黛安之行": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:海伦与圆锥曲线": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:滑落与翻滚": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:激情与痴迷": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:灼热的繁花": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:理查与白金汉": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:番茄与莴苣": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:疲惫的屠夫": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:空荡的密室": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:至福的寂静": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:蓝色土豆": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:觉知与灵魂": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:论爱（开篇）": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:软偶像·之一": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:软偶像·之三": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:软偶像·之二": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    },
+    "racter:鹰与海鸥": {
+      "n": 1,
+      "acc": 1.0,
+      "n_true_poem": 0,
+      "n_pred_poem": 0,
+      "precision_poem": 0.0,
+      "recall_poem": 0.0,
+      "f1_poem": 0.0
+    }
+  },
+  "strong_disagreements": {
+    "threshold": 0.85,
+    "n": 2,
+    "top_10": [
+      {
+        "sample_id": "poem#01230",
+        "label": 1,
+        "pred": 0,
+        "prob_poem": 0.09992466319553157,
+        "confidence": 0.9000753368044684,
+        "strat": "poem:modern",
+        "source_type": "modern",
+        "text_preview": "你在早上 碰落的第一滴露水 肯定和你的爱人有关 你在中午饮马 在一枝青丫下稍立片刻 也和她有关 你在暮色中 坐在屋子里，不动 还是与她有关 你不要不承认 巨日消"
+      },
+      {
+        "sample_id": "racter#034",
+        "label": 0,
+        "pred": 1,
+        "prob_poem": 0.8584904921750928,
+        "confidence": 0.8584904921750928,
+        "strat": "racter:夜空与黑原",
+        "source_type": "ai",
+        "text_preview": "夜空与黑色的原野， 一片平坦龟裂的表面与一座建筑， 她在玻璃中映出一个影像， 她看不见，她不观望。"
+      }
+    ],
+    "all_ids": [
+      "poem#01230",
+      "racter#034"
+    ]
+  },
+  "expert_corpus": {
+    "n": 100,
+    "accuracy": 0.98,
+    "kappa_quadratic": 0.96
+  },
+  "elapsed_sec": 38.3
+}

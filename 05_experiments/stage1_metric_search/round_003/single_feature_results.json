@@ -1,0 +1,156 @@
+{
+  "form_line_count": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "form_line_char_var": {
+    "best_train_acc": 0.8456873315363881,
+    "thr": 0.65,
+    "polarity": 1,
+    "val_acc": 0.8598382749326146,
+    "val_kappa": 0.5658084263593806
+  },
+  "form_classical_match": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "form_n_lines_score": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "struct_n_lines": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "struct_line_ending_punct": {
+    "best_train_acc": 0.8079514824797843,
+    "thr": 0.49999999999999994,
+    "polarity": 0,
+    "val_acc": 0.7789757412398922,
+    "val_kappa": 0.4371507863089732
+  },
+  "struct_short_line_ratio": {
+    "best_train_acc": 0.8928571428571429,
+    "thr": 0.9,
+    "polarity": 1,
+    "val_acc": 0.8921832884097035,
+    "val_kappa": 0.6792322324053259
+  },
+  "jump_connector_density": {
+    "best_train_acc": 0.8180592991913747,
+    "thr": 0.3,
+    "polarity": 1,
+    "val_acc": 0.8328840970350404,
+    "val_kappa": 0.32143489291403615
+  },
+  "jump_char_per_line": {
+    "best_train_acc": 0.8322102425876011,
+    "thr": 0.75,
+    "polarity": 1,
+    "val_acc": 0.8544474393530997,
+    "val_kappa": 0.497289972899729
+  },
+  "jump_line_density_var": {
+    "best_train_acc": 0.8180592991913747,
+    "thr": 0.95,
+    "polarity": 0,
+    "val_acc": 0.8247978436657682,
+    "val_kappa": 0.5278327100424882
+  },
+  "lang_imagery_density": {
+    "best_train_acc": 0.8706199460916442,
+    "thr": 0.35,
+    "polarity": 1,
+    "val_acc": 0.8679245283018868,
+    "val_kappa": 0.5008100612351374
+  },
+  "lang_classical_marker_density": {
+    "best_train_acc": 0.7951482479784366,
+    "thr": 0.95,
+    "polarity": 0,
+    "val_acc": 0.7735849056603774,
+    "val_kappa": 0.3127811590367823
+  },
+  "lang_prose_particle_density": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.85,
+    "polarity": 0,
+    "val_acc": 0.8059299191374663,
+    "val_kappa": -0.0053443733534062066
+  },
+  "lang_line_break_existence": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "music_pattern_regularity": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "music_ping_ze_balance": {
+    "best_train_acc": 0.8079514824797843,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8032345013477089,
+    "val_kappa": -0.010597410351132597
+  },
+  "music_final_char_ping_ratio": {
+    "best_train_acc": 0.8066037735849056,
+    "thr": 0.85,
+    "polarity": 0,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "base_bleu_to_poem": {
+    "best_train_acc": 0.8261455525606469,
+    "thr": 0.95,
+    "polarity": 1,
+    "val_acc": 0.8113207547169812,
+    "val_kappa": 0.11419605702981095
+  },
+  "base_bleu_to_nonpoem": {
+    "best_train_acc": 0.9865229110512129,
+    "thr": 0.95,
+    "polarity": 0,
+    "val_acc": 0.9622641509433962,
+    "val_kappa": 0.8753958353325016
+  },
+  "base_bigram_jacc_to_poem": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 0,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "base_bigram_jacc_to_nonpoem": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 0,
+    "val_acc": 0.8086253369272237,
+    "val_kappa": 0.0
+  },
+  "base_tfidf_cos_to_poem": {
+    "best_train_acc": 0.8086253369272237,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.8032345013477089,
+    "val_kappa": -0.010597410351132597
+  }
+}

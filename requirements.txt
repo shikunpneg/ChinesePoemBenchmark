@@ -1,0 +1,25 @@
+# Python dependencies for ChinesePoemBenchmark
+# Tested with Python 3.10+
+
+# Core
+numpy>=1.24
+scipy>=1.11
+scikit-learn>=1.3
+pandas>=2.0
+
+# Chinese NLP
+jieba>=0.42
+pypinyin>=0.49
+
+# Optional: only needed for Neon DB access (Stage 2 IAA experiments)
+# psycopg2-binary>=2.9
+
+# Optional: only needed for LLM-as-judge baseline (not yet active)
+# openai>=1.0
+# requests>=2.31
+
+# Optional: for paper figure generation
+# matplotlib>=3.7
+
+# Testing
+pytest>=7.4

@@ -1,0 +1,185 @@
+{
+  "round": 1,
+  "stage": "stage1",
+  "timestamp": "2026-08-14T18:10:19",
+  "settings": {
+    "max_per_class": 300,
+    "val_ratio": 0.2,
+    "seed": 42,
+    "n_train": 480,
+    "n_val": 120
+  },
+  "combo": {
+    "features": [
+      "form_line_count",
+      "form_line_char_var",
+      "form_classical_match",
+      "form_n_lines_score",
+      "struct_n_lines",
+      "struct_line_ending_punct",
+      "struct_short_line_ratio",
+      "jump_connector_density",
+      "jump_char_per_line",
+      "jump_line_density_var",
+      "music_pattern_regularity",
+      "music_ping_ze_balance",
+      "music_final_char_ping_ratio",
+      "base_bleu_to_poem",
+      "base_bleu_to_nonpoem",
+      "base_bigram_jacc_to_poem",
+      "base_bigram_jacc_to_nonpoem",
+      "base_tfidf_cos_to_poem"
+    ],
+    "classifier": "LogisticRegression",
+    "params": {
+      "C": 1.0,
+      "class_weight": "balanced",
+      "max_iter": 2000
+    }
+  },
+  "consistency": {
+    "accuracy": 0.9916666666666667,
+    "kappa_quadratic": 0.9833333333333333,
+    "f1_macro": 0.9916660879227724,
+    "per_class": {
+      "nonpoem": {
+        "precision": 0.9836065573770492,
+        "recall": 1.0,
+        "f1": 0.9917355371900827,
+        "support": 60
+      },
+      "poem": {
+        "precision": 1.0,
+        "recall": 0.9833333333333333,
+        "f1": 0.9915966386554622,
+        "support": 60
+      }
+    }
+  },
+  "top_weights": [
+    {
+      "name": "base_bigram_jacc_to_poem",
+      "coef": 1.7919167113980965
+    },
+    {
+      "name": "base_bleu_to_nonpoem",
+      "coef": -1.6999367223774946
+    },
+    {
+      "name": "base_bleu_to_poem",
+      "coef": 1.6701760179951026
+    },
+    {
+      "name": "base_bigram_jacc_to_nonpoem",
+      "coef": -1.6523335565491535
+    },
+    {
+      "name": "struct_short_line_ratio",
+      "coef": 0.8381521405435104
+    },
+    {
+      "name": "form_classical_match",
+      "coef": 0.8054384260677586
+    },
+    {
+      "name": "form_line_char_var",
+      "coef": 0.6322934351952164
+    },
+    {
+      "name": "jump_line_density_var",
+      "coef": -0.569299978308787
+    },
+    {
+      "name": "base_tfidf_cos_to_poem",
+      "coef": 0.5508622500183369
+    },
+    {
+      "name": "form_line_count",
+      "coef": 0.3182291115058805
+    }
+  ],
+  "single_feature_top": [
+    {
+      "name": "struct_short_line_ratio",
+      "best_train_acc": 0.9354166666666667,
+      "thr": 0.9,
+      "polarity": 1,
+      "val_acc": 0.95,
+      "val_kappa": 0.9
+    },
+    {
+      "name": "struct_line_ending_punct",
+      "best_train_acc": 0.9020833333333333,
+      "thr": 0.2,
+      "polarity": 0,
+      "val_acc": 0.9,
+      "val_kappa": 0.8
+    },
+    {
+      "name": "form_line_char_var",
+      "best_train_acc": 0.8604166666666667,
+      "thr": 0.9,
+      "polarity": 1,
+      "val_acc": 0.8916666666666667,
+      "val_kappa": 0.7833333333333333
+    },
+    {
+      "name": "form_classical_match",
+      "best_train_acc": 0.8770833333333333,
+      "thr": 0.25,
+      "polarity": 1,
+      "val_acc": 0.8916666666666667,
+      "val_kappa": 0.7833333333333333
+    },
+    {
+      "name": "jump_char_per_line",
+      "best_train_acc": 0.8520833333333333,
+      "thr": 0.75,
+      "polarity": 1,
+      "val_acc": 0.8666666666666667,
+      "val_kappa": 0.7333333333333334
+    },
+    {
+      "name": "jump_line_density_var",
+      "best_train_acc": 0.8166666666666667,
+      "thr": 0.5499999999999999,
+      "polarity": 0,
+      "val_acc": 0.85,
+      "val_kappa": 0.7
+    },
+    {
+      "name": "base_bleu_to_nonpoem",
+      "best_train_acc": 0.9770833333333333,
+      "thr": 0.95,
+      "polarity": 0,
+      "val_acc": 0.85,
+      "val_kappa": 0.7
+    },
+    {
+      "name": "music_ping_ze_balance",
+      "best_train_acc": 0.68125,
+      "thr": 0.49999999999999994,
+      "polarity": 1,
+      "val_acc": 0.7916666666666666,
+      "val_kappa": 0.5833333333333333
+    }
+  ],
+  "diff_vs_prev": null,
+  "failures": {
+    "count": 1,
+    "nonpoem_misclassified_as_poem": 0,
+    "poem_misclassified_as_nonpoem": 1,
+    "path": "04_memory\\failures\\round_001.jsonl"
+  },
+  "check_agent": {
+    "pre": "PASS",
+    "post": "PASS",
+    "invalid_markers": []
+  },
+  "artifacts": [
+    "05_experiments\\stage1_metric_search\\round_001\\feature_coef.json",
+    "05_experiments\\stage1_metric_search\\round_001\\single_feature_results.json",
+    "04_memory\\failures\\round_001.jsonl"
+  ],
+  "elapsed_sec": 2.3
+}

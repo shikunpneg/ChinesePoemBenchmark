@@ -1,0 +1,128 @@
+{
+  "form_line_count": {
+    "best_train_acc": 0.5020833333333333,
+    "thr": 0.05,
+    "polarity": 1,
+    "val_acc": 0.5,
+    "val_kappa": 0.0
+  },
+  "form_line_char_var": {
+    "best_train_acc": 0.8604166666666667,
+    "thr": 0.9,
+    "polarity": 1,
+    "val_acc": 0.8916666666666667,
+    "val_kappa": 0.7833333333333333
+  },
+  "form_classical_match": {
+    "best_train_acc": 0.8770833333333333,
+    "thr": 0.25,
+    "polarity": 1,
+    "val_acc": 0.8916666666666667,
+    "val_kappa": 0.7833333333333333
+  },
+  "form_n_lines_score": {
+    "best_train_acc": 0.5708333333333333,
+    "thr": 0.44999999999999996,
+    "polarity": 0,
+    "val_acc": 0.55,
+    "val_kappa": 0.09999999999999998
+  },
+  "struct_n_lines": {
+    "best_train_acc": 0.5729166666666666,
+    "thr": 0.44999999999999996,
+    "polarity": 0,
+    "val_acc": 0.55,
+    "val_kappa": 0.09999999999999998
+  },
+  "struct_line_ending_punct": {
+    "best_train_acc": 0.9020833333333333,
+    "thr": 0.2,
+    "polarity": 0,
+    "val_acc": 0.9,
+    "val_kappa": 0.8
+  },
+  "struct_short_line_ratio": {
+    "best_train_acc": 0.9354166666666667,
+    "thr": 0.9,
+    "polarity": 1,
+    "val_acc": 0.95,
+    "val_kappa": 0.9
+  },
+  "jump_connector_density": {
+    "best_train_acc": 0.68125,
+    "thr": 0.44999999999999996,
+    "polarity": 1,
+    "val_acc": 0.65,
+    "val_kappa": 0.30000000000000004
+  },
+  "jump_char_per_line": {
+    "best_train_acc": 0.8520833333333333,
+    "thr": 0.75,
+    "polarity": 1,
+    "val_acc": 0.8666666666666667,
+    "val_kappa": 0.7333333333333334
+  },
+  "jump_line_density_var": {
+    "best_train_acc": 0.8166666666666667,
+    "thr": 0.5499999999999999,
+    "polarity": 0,
+    "val_acc": 0.85,
+    "val_kappa": 0.7
+  },
+  "music_pattern_regularity": {
+    "best_train_acc": 0.6270833333333333,
+    "thr": 0.6,
+    "polarity": 0,
+    "val_acc": 0.6416666666666667,
+    "val_kappa": 0.2833333333333333
+  },
+  "music_ping_ze_balance": {
+    "best_train_acc": 0.68125,
+    "thr": 0.49999999999999994,
+    "polarity": 1,
+    "val_acc": 0.7916666666666666,
+    "val_kappa": 0.5833333333333333
+  },
+  "music_final_char_ping_ratio": {
+    "best_train_acc": 0.6458333333333334,
+    "thr": 0.25,
+    "polarity": 1,
+    "val_acc": 0.6583333333333333,
+    "val_kappa": 0.31666666666666665
+  },
+  "base_bleu_to_poem": {
+    "best_train_acc": 0.9083333333333333,
+    "thr": 0.95,
+    "polarity": 1,
+    "val_acc": 0.7333333333333333,
+    "val_kappa": 0.4666666666666667
+  },
+  "base_bleu_to_nonpoem": {
+    "best_train_acc": 0.9770833333333333,
+    "thr": 0.95,
+    "polarity": 0,
+    "val_acc": 0.85,
+    "val_kappa": 0.7
+  },
+  "base_bigram_jacc_to_poem": {
+    "best_train_acc": 0.5,
+    "thr": 0.05,
+    "polarity": 0,
+    "val_acc": 0.5,
+    "val_kappa": 0.0
+  },
+  "base_bigram_jacc_to_nonpoem": {
+    "best_train_acc": 0.5,
+    "thr": 0.05,
+    "polarity": 0,
+    "val_acc": 0.5,
+    "val_kappa": 0.0
+  },
+  "base_tfidf_cos_to_poem": {
+    "best_train_acc": 0.5541666666666667,
+    "thr": 0.3,
+    "polarity": 1,
+    "val_acc": 0.525,
+    "val_kappa": 0.050000000000000044
+  }
+}

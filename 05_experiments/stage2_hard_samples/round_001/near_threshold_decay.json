@@ -1,0 +1,115 @@
+{
+  "overall": {
+    "n_items": 194,
+    "indicator_prob_mean": 0.9318248841259075,
+    "indicator_prob_median": 0.9903228374690425,
+    "fraction_predicted_poem": 0.9484536082474226,
+    "sim_cosine_mean": 0.44340927835051547,
+    "sim_cosine_median": 0.41864999999999997
+  },
+  "by_similarity_bin": [
+    {
+      "range": [
+        0.0,
+        0.1
+      ],
+      "n": 0
+    },
+    {
+      "range": [
+        0.1,
+        0.2
+      ],
+      "n": 3,
+      "indicator_prob_mean": 0.9924958576482483,
+      "indicator_prob_median": 0.9988621334300359,
+      "fraction_predicted_poem": 1.0,
+      "sim_cosine_mean": 0.18536666666666668
+    },
+    {
+      "range": [
+        0.2,
+        0.3
+      ],
+      "n": 16,
+      "indicator_prob_mean": 0.98174157419886,
+      "indicator_prob_median": 0.9907070150598118,
+      "fraction_predicted_poem": 1.0,
+      "sim_cosine_mean": 0.25935
+    },
+    {
+      "range": [
+        0.3,
+        0.4
+      ],
+      "n": 71,
+      "indicator_prob_mean": 0.9402385223351618,
+      "indicator_prob_median": 0.9901921462517493,
+      "fraction_predicted_poem": 0.9577464788732394,
+      "sim_cosine_mean": 0.34142112676056335
+    },
+    {
+      "range": [
+        0.4,
+        0.5
+      ],
+      "n": 47,
+      "indicator_prob_mean": 0.9559340537560462,
+      "indicator_prob_median": 0.9940725240293536,
+      "fraction_predicted_poem": 1.0,
+      "sim_cosine_mean": 0.4493510638297872
+    },
+    {
+      "range": [
+        0.5,
+        0.7
+      ],
+      "n": 46,
+      "indicator_prob_mean": 0.8679526162566356,
+      "indicator_prob_median": 0.9874758288663845,
+      "fraction_predicted_poem": 0.8478260869565217,
+      "sim_cosine_mean": 0.5942521739130434
+    },
+    {
+      "range": [
+        0.7,
+        1.0
+      ],
+      "n": 11,
+      "indicator_prob_mean": 0.9524562545603323,
+      "indicator_prob_median": 0.9958859556875792,
+      "fraction_predicted_poem": 1.0,
+      "sim_cosine_mean": 0.7836090909090909
+    }
+  ],
+  "by_model": {
+    "GuCheng": {
+      "n": 33,
+      "indicator_prob_mean": 0.8869947845670303,
+      "fraction_predicted_poem": 0.9393939393939394,
+      "sim_cosine_mean": 0.37185454545454544,
+      "sim_cosine_median": 0.3301
+    },
+    "Haizi": {
+      "n": 112,
+      "indicator_prob_mean": 0.9530619228785542,
+      "fraction_predicted_poem": 0.9553571428571429,
+      "sim_cosine_mean": 0.47078125000000004,
+      "sim_cosine_median": 0.44425
+    },
+    "Haizi-CN": {
+      "n": 36,
+      "indicator_prob_mean": 0.895148495180934,
+      "fraction_predicted_poem": 0.9166666666666666,
+      "sim_cosine_mean": 0.44226944444444455,
+      "sim_cosine_median": 0.42685
+    },
+    "LiBai": {
+      "n": 13,
+      "indicator_prob_mean": 0.9642244954463356,
+      "fraction_predicted_poem": 1.0,
+      "sim_cosine_mean": 0.39238461538461533,
+      "sim_cosine_median": 0.3891
+    }
+  }
+}

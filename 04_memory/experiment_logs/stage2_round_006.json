@@ -1,0 +1,120 @@
+{
+  "stage": "stage2",
+  "round": 6,
+  "timestamp": "2026-08-14T22:47:00",
+  "n_total_unique_annotations": 1613,
+  "n_unique_annotators": 4,
+  "n_samples_with_text": 659,
+  "indicator_vs_per_annotator": {
+    "annotator_01": {
+      "n": 650,
+      "n_yes_human": 313,
+      "acc": 0.6876923076923077,
+      "kappa_quadratic": 0.3838546092998496
+    },
+    "annotator_02": {
+      "n": 25,
+      "n_yes_human": 9,
+      "acc": 0.64,
+      "kappa_quadratic": 0.3589743589743589
+    },
+    "annotator_04": {
+      "n": 8,
+      "n_yes_human": 2,
+      "acc": 0.375,
+      "kappa_quadratic": 0.09090909090909094
+    },
+    "annotator_06": {
+      "n": 3,
+      "n_yes_human": 0,
+      "acc": 0.3333333333333333,
+      "kappa_quadratic": 0.0
+    }
+  },
+  "fleiss_kappa": {
+    "n_items": 27,
+    "n_raters_min": 2,
+    "n_raters_max": 2,
+    "n_raters_mean": 2.0,
+    "P_bar": 0.7037037037037037,
+    "Pe": 0.5171467764060356,
+    "kappa": 0.3863636363636365
+  },
+  "pairwise_cohen": {
+    "annotator_01~annotator_02": {
+      "n": 19,
+      "kappa": 0.46327683615819215,
+      "agree_rate": 0.7368421052631579
+    },
+    "annotator_01~annotator_04": {
+      "n": 5,
+      "kappa": 0.2857142857142857,
+      "agree_rate": 0.6
+    },
+    "annotator_01~annotator_06": {
+      "n": 3,
+      "kappa": 0.0,
+      "agree_rate": 0.6666666666666666
+    }
+  },
+  "indicator_vs_majority": {
+    "n": 659,
+    "acc": 0.6858877086494689,
+    "kappa": 0.3862044140475601,
+    "f1_macro": 0.6778647585987035
+  },
+  "n_disagreements": 207,
+  "disagreement_sample_ids": [
+    667,
+    829,
+    858,
+    917,
+    976,
+    932,
+    912,
+    221,
+    854,
+    806,
+    967,
+    956,
+    941,
+    968,
+    203,
+    920,
+    993,
+    594,
+    983,
+    855,
+    985,
+    770,
+    938,
+    853,
+    216,
+    942,
+    241,
+    977,
+    222,
+    875,
+    949,
+    812,
+    897,
+    218,
+    843,
+    943,
+    765,
+    869,
+    939,
+    819,
+    212,
+    874,
+    893,
+    824,
+    969,
+    903,
+    965,
+    876,
+    926,
+    947
+  ],
+  "elapsed_sec": 45.8
+}
