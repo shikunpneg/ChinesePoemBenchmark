@@ -268,3 +268,32 @@
 
 **决策**：**v4b 仍是最优版本**，指标迭代停止
 - 详见：`06_artifacts/reports/stage2_round14_report.md`
+
+## 2026-08-15 · v7：五大新指标族（用户反馈升级）
+
+用户反馈要求升级指标（不再是浅层统计）：
+1. **form → meter**：真实近体诗格律标准（句式 A/B/C/D、粘对、押韵、对仗、诗体判定）— `meter.py`
+2. **struct → +段落主题 NLP**：段落统计 + jieba 关键词每段主题分析（主题跳跃/聚焦/首尾呼应）— `structure.py`
+3. **jump → NER 意象**：jieba.posseg 抽取实体 + 意象场顺序逻辑分析（场切换/回环/断裂-引力）— `imagery_ner.py`
+4. **music → phonetics 真实声学**：五度调值曲线 + 元音开口度（共振代理）+ 韵母音位距离 — `phonetics.py`
+5. **+ semantic 语义向量**：bge-small-zh 嵌入（相邻行相似/断裂-引力/整体性），磁盘缓存加速 — `semantic.py`
+
+**技术要点**：
+- 装 sentence-transformers 5.7.0 + torch 2.13 CPU 版（GPU 被 LLaMA-Factory 训练占用，未抢）
+- bge-small-zh 24M 参数 CPU 可跑；6870 条文本 10.6 万行编码缓存 5.25 分钟 → `semantic_cache.npz`
+- 性能优化：imagery_ner 29.9→6.4ms、phonetics 22.5→6.0ms（pypinyin/posseg 缓存）
+
+**v7 结果（R15）**：
+| 版本 | val | expert | AI 诗 | AI fp |
+|---|---|---|---|---|
+| v2 (冻结) | 0.930 | 0.940 | 0.032 | 31 |
+| v7a | 0.930 | 0.940 | 0.032 | 31 |
+| v7b (+AI neg) | 0.947 | 0.900 | 0.438 | 0 |
+| v7c (无语义) | 0.947 | 0.880 | **0.481** | 0 |
+
+**结论**：
+- 新特征族**未突破 kappa**（v4b 0.974 仍最优）
+- **语义向量在 AI 诗集上无增益**（v7c > v7b）——短诗行嵌入区分度不足
+- 新特征族的真正价值在**可解释性**（合律度/意象场/韵母和谐）而非性能
+- 完整计算原理文档：`00_docs/metric_principles_v7.md`（已提交）
+- 提交 `30dd48b` 已推送 GitHub
