@@ -202,3 +202,23 @@ MIT License. 详见 [LICENSE](LICENSE).
 ## 致谢
 
 本项目是「AI for Research」开放探索赛的参赛项目。
+
+## Harness 集成
+
+本项目配套的 **AI4S 子 Agent 系统**（Explorer / Generator / Check / Memory 四子 Agent）
+托管在：
+
+> 🔗 **https://github.com/shikunpneg/shikunpunk-deepseek-harness**
+> 位置：`research/poetry-poetricity-harness/` + `.agents/skills/dsh-poetry-poetricity/`
+
+harness 按项目方案《第一版.pdf》实现：
+- **§2.1 环境边界** → `AccessGate` 数据读写白名单 + CheckAgent 审计
+- **§2.3 记录与记忆** → `MemoryAgent` 实验日志 / 失败样本 / 规则沉淀
+- **§3.1 发现信号** → `ExplorerAgent` 指标组合搜索闭环
+- **§4.1 试跑闭环** → `run_round()` 观察→探索→评估→审计→记忆
+
+```bash
+# 在 deepseek-harness 仓库内运行 harness 真实评估
+cd research/poetry-poetricity-harness
+python run_harness.py --rounds 2 --model v2   # val kappa ≈ 0.93
+```
