@@ -1,0 +1,136 @@
+{
+  "stage": "stage2",
+  "round": 15,
+  "timestamp": "2026-08-15T18:24:22",
+  "n_features": 63,
+  "feature_names": [
+    "meter_form_score",
+    "meter_line_pattern_ok",
+    "meter_dui_ok",
+    "meter_nian_ok",
+    "meter_rhyme_agreement",
+    "meter_parallelism",
+    "meter_is_metrical",
+    "para_para_count",
+    "para_para_len_mean",
+    "para_para_len_cv",
+    "para_para_var",
+    "theme_theme_jump_mean",
+    "theme_theme_jump_cv",
+    "theme_theme_coherence",
+    "theme_theme_cluster_ratio",
+    "theme_opening_closure",
+    "struct_n_lines",
+    "struct_line_ending_punct",
+    "struct_short_line_ratio",
+    "ner_entity_density",
+    "ner_field_diversity",
+    "ner_field_sequence_len",
+    "img_ent_adj_sim_mean",
+    "img_ent_adj_sim_cv",
+    "img_field_switch_rate",
+    "img_field_return",
+    "img_rupture_bridge",
+    "img_logic_jump_score",
+    "sem_adj_line_sim_mean",
+    "sem_adj_line_sim_cv",
+    "sem_first_last_sim",
+    "sem_bridge_rate",
+    "sem_wholeness",
+    "sem_dispersion",
+    "jump_connector_density",
+    "jump_char_per_line",
+    "jump_line_density_var",
+    "lang_imagery_density",
+    "lang_classical_marker_density",
+    "lang_prose_particle_density",
+    "lang_line_break_existence",
+    "purity_han_ratio",
+    "purity_no_english",
+    "purity_no_digit",
+    "purity_line_cleanliness",
+    "style_news_word_density",
+    "style_news_phrase_density",
+    "style_forum_filler_density",
+    "style_avg_para_len",
+    "music_pattern_regularity",
+    "music_ping_ze_balance",
+    "music_final_char_ping_ratio",
+    "phon_tone_smoothness",
+    "phon_tone_cv",
+    "phon_resonance_var",
+    "phon_rhyme_distance",
+    "phon_rhyme_repeat",
+    "phon_tone_balance"
+  ],
+  "new_feature_families": [
+    "meter",
+    "para_theme",
+    "ner_imagery",
+    "semantic"
+  ],
+  "n_ai_neg": 32,
+  "val_results": {
+    "v2 (frozen)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9303286384976526
+    },
+    "v7a": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9303286384976526
+    },
+    "v7b (+AI neg)": {
+      "acc": 0.9838274932614556,
+      "kappa": 0.9465982151425008
+    },
+    "v7c (no sem)": {
+      "acc": 0.9838274932614556,
+      "kappa": 0.9465982151425008
+    }
+  },
+  "expert_results": {
+    "v2 (frozen)": {
+      "acc": 0.97,
+      "kappa": 0.94
+    },
+    "v7a": {
+      "acc": 0.97,
+      "kappa": 0.94
+    },
+    "v7b (+AI neg)": {
+      "acc": 0.95,
+      "kappa": 0.9
+    },
+    "v7c (no sem)": {
+      "acc": 0.94,
+      "kappa": 0.88
+    }
+  },
+  "ai_results": {
+    "v2 (frozen)": {
+      "acc": 0.8421052631578947,
+      "kappa": 0.03172820440825497,
+      "fp": 31,
+      "fn": 2
+    },
+    "v7a": {
+      "acc": 0.8421052631578947,
+      "kappa": 0.03172820440825497,
+      "fp": 31,
+      "fn": 2
+    },
+    "v7b (+AI neg)": {
+      "acc": 0.7607655502392344,
+      "kappa": 0.4375067283884164,
+      "fp": 0,
+      "fn": 50
+    },
+    "v7c (no sem)": {
+      "acc": 0.7894736842105263,
+      "kappa": 0.4806866952789699,
+      "fp": 0,
+      "fn": 44
+    }
+  },
+  "elapsed_sec": 322.7
+}

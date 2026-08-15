@@ -19,6 +19,11 @@ from .features import (
     text_reliability,
 )
 
+from .meter import analyze_meter, meter_to_features
+from .structure import structure_v2_features
+from .imagery_ner import extract_entities, imagery_features, imagery_logic_jump
+from .phonetics import phonetic_features
+
 from .baselines import (
     bigram_jaccard_self,
     bleu_self,
@@ -51,6 +56,13 @@ __all__ = [
     "feat_style",
     "feat_structure",
     "text_reliability",
+    "analyze_meter",
+    "meter_to_features",
+    "structure_v2_features",
+    "extract_entities",
+    "imagery_features",
+    "imagery_logic_jump",
+    "phonetic_features",
     "bigram_jaccard_self",
     "bleu_self",
     "build_char_vocab",

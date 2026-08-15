@@ -563,12 +563,24 @@ def feat_music_simple(text: str) -> dict[str, float]:
 
 #: All feature names produced by `extract_all_features` (in fixed order).
 FEATURE_NAMES: list[str] = [
-    # form
-    "form_line_count", "form_line_char_var", "form_classical_match",
-    "form_n_lines_score",
-    # structure
+    # form (classical meter)
+    "meter_form_score", "meter_line_pattern_ok", "meter_dui_ok",
+    "meter_nian_ok", "meter_rhyme_agreement", "meter_parallelism",
+    "meter_is_metrical",
+    # structure (v2: paragraphs + theme)
+    "para_para_count", "para_para_len_mean", "para_para_len_cv", "para_para_var",
+    "theme_theme_jump_mean", "theme_theme_jump_cv", "theme_theme_coherence",
+    "theme_theme_cluster_ratio", "theme_opening_closure",
+    # structure (original 3)
     "struct_n_lines", "struct_line_ending_punct", "struct_short_line_ratio",
-    # logic-jump
+    # logic-jump (v2: NER imagery)
+    "ner_entity_density", "ner_field_diversity", "ner_field_sequence_len",
+    "img_ent_adj_sim_mean", "img_ent_adj_sim_cv", "img_field_switch_rate",
+    "img_field_return", "img_rupture_bridge", "img_logic_jump_score",
+    # semantic (v7: bge-small-zh embeddings)
+    "sem_adj_line_sim_mean", "sem_adj_line_sim_cv", "sem_first_last_sim",
+    "sem_bridge_rate", "sem_wholeness", "sem_dispersion",
+    # logic-jump (original 3, kept for compat)
     "jump_connector_density", "jump_char_per_line", "jump_line_density_var",
     # language (round 2)
     "lang_imagery_density", "lang_classical_marker_density",
@@ -581,30 +593,86 @@ FEATURE_NAMES: list[str] = [
     "style_forum_filler_density", "style_avg_para_len",
     # music (simplified)
     "music_pattern_regularity", "music_ping_ze_balance", "music_final_char_ping_ratio",
+    # phonetics (real sound, v7)
+    "phon_tone_smoothness", "phon_tone_cv", "phon_resonance_var",
+    "phon_rhyme_distance", "phon_rhyme_repeat", "phon_tone_balance",
 ]
 
 
-def extract_all_features(text: str) -> dict[str, float]:
-    """Run all P0 + P1-simple feature extractors and return a flat dict.
+def extract_all_features(text: str, _skip_semantic: bool = False) -> dict[str, float]:
+    """Run all feature extractors and return a flat dict.
 
-    The keys are the canonical FEATURE_NAMES.
+    The keys are the canonical FEATURE_NAMES. New feature families
+    (meter / paragraph-theme / NER-imagery / semantic) are included.
+
+    NOTE: semantic features lazily load the bge-small-zh model on first use;
+    if unavailable they return 0.0 without breaking the pipeline.
+    When `_skip_semantic=True`, semantic features are set to 0.0 (batch
+    mode fills them in afterwards).
     """
     f = {}
-    f.update({f"form_{k}": v for k, v in feat_form(text).items()})
+    # form: classical meter (from meter.py)
+    from .meter import meter_to_features
+    f.update(meter_to_features(text))
+    # structure: paragraph + theme (from structure.py)
+    from .structure import structure_v2_features
+    f.update(structure_v2_features(text))
+    # structure: original
     f.update({f"struct_{k}": v for k, v in feat_structure(text).items()})
+    # NER imagery + logic jump (from imagery_ner.py)
+    from .imagery_ner import imagery_features
+    f.update(imagery_features(text))
+    # semantic (from semantic.py; lazy, safe)
+    if _skip_semantic:
+        for k in ("sem_adj_line_sim_mean", "sem_adj_line_sim_cv",
+                  "sem_first_last_sim", "sem_bridge_rate",
+                  "sem_wholeness", "sem_dispersion"):
+            f[k] = 0.0
+    else:
+        try:
+            from .semantic import semantic_features
+            f.update(semantic_features(text))
+        except Exception:
+            for k in ("sem_adj_line_sim_mean", "sem_adj_line_sim_cv",
+                      "sem_first_last_sim", "sem_bridge_rate",
+                      "sem_wholeness", "sem_dispersion"):
+                f[k] = 0.0
+    # original jump / lang / purity / style / music
     f.update({f"jump_{k}": v for k, v in feat_logic_jump(text).items()})
     f.update({f"lang_{k}": v for k, v in feat_language(text).items()})
     f.update({f"purity_{k}": v for k, v in feat_purity(text).items()})
     f.update({f"style_{k}": v for k, v in feat_style(text).items()})
     f.update({f"music_{k}": v for k, v in feat_music_simple(text).items()})
+    # phonetics (real sound, v7)
+    from .phonetics import phonetic_features
+    f.update({f"phon_{k}": v for k, v in phonetic_features(text).items()})
     return f
 
 
-def extract_batch(texts: Iterable[str]) -> np.ndarray:
-    """Compute features for an iterable of texts, return shape (N, F) array."""
+def extract_batch(texts: Iterable[str], use_semantic: bool = True) -> np.ndarray:
+    """Compute features for an iterable of texts, return shape (N, F) array.
+
+    Semantic features are computed in batch when `use_semantic=True` (much
+    faster than per-text). Falls back to non-semantic if model unavailable.
+    """
+    texts = list(texts)
     rows = []
-    for t in texts:
-        d = extract_all_features(t)
+    # precompute semantic features in batch (once for all texts)
+    sem_rows = None
+    if use_semantic:
+        try:
+            from .semantic import semantic_features_batch
+            sem_rows = semantic_features_batch(texts)
+        except Exception:
+            sem_rows = None
+    sem_keys = ("sem_adj_line_sim_mean", "sem_adj_line_sim_cv",
+                "sem_first_last_sim", "sem_bridge_rate",
+                "sem_wholeness", "sem_dispersion")
+    for i, t in enumerate(texts):
+        d = extract_all_features(t, _skip_semantic=True)
+        if sem_rows is not None and i < len(sem_rows):
+            for k, v in zip(sem_keys, sem_rows[i]):
+                d[k] = float(v)
         rows.append([float(d.get(k, 0.0)) for k in FEATURE_NAMES])
     return np.asarray(rows, dtype=np.float64)
 
