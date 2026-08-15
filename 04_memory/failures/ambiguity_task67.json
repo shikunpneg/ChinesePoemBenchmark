@@ -1,0 +1,979 @@
+{
+  "source": [
+    "annotations_task6_r1.csv",
+    "annotations_task7_r1.csv"
+  ],
+  "total_rows": 254,
+  "unique_samples": 100,
+  "cat_a_disagreement": {
+    "n": 24,
+    "samples": [
+      {
+        "sample_id": 110150,
+        "title": "大自然",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": false,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": null,
+          "annotator_04": null,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110152,
+        "title": "冬天的雨",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": false,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": null,
+          "annotator_04": null,
+          "annotator_06": 1
+        }
+      },
+      {
+        "sample_id": 110153,
+        "title": "分离",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_01": false,
+          "annotator_02": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_01": null,
+          "annotator_02": 2,
+          "annotator_04": 2,
+          "annotator_06": 3
+        }
+      },
+      {
+        "sample_id": 110154,
+        "title": "假如……",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 3,
+          "annotator_04": 2,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110158,
+        "title": "有时",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": true,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": 2,
+          "annotator_01": 3,
+          "annotator_04": null,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110159,
+        "title": "民间艺人",
+        "person": "海子",
+        "origin": "human",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": 3,
+          "annotator_06": 2
+        }
+      },
+      {
+        "sample_id": 110160,
+        "title": "太平洋上的贾宝玉",
+        "person": "海子",
+        "origin": "human",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 2,
+          "annotator_04": null,
+          "annotator_06": 3
+        }
+      },
+      {
+        "sample_id": 110165,
+        "title": "酒杯",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 5,
+          "annotator_04": 2,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110167,
+        "title": "公爵的私生女",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": false,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": null,
+          "annotator_04": null,
+          "annotator_06": 1
+        }
+      },
+      {
+        "sample_id": 110168,
+        "title": "夜晚 亲爱的朋友",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 3,
+          "annotator_04": 2,
+          "annotator_06": 1
+        }
+      },
+      {
+        "sample_id": 110170,
+        "title": "日出",
+        "person": "海子",
+        "origin": "human",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": null,
+          "annotator_06": 3
+        }
+      },
+      {
+        "sample_id": 110172,
+        "title": "怅望祁连（之一）",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": 4,
+          "annotator_06": 2
+        }
+      },
+      {
+        "sample_id": 110174,
+        "title": "我们去寻找一盏灯",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": 2,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110175,
+        "title": "微微的希望",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": null,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110176,
+        "title": "我们相信",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 3,
+          "annotator_04": null,
+          "annotator_06": 2
+        }
+      },
+      {
+        "sample_id": 110178,
+        "title": "弧线",
+        "person": "顾城",
+        "origin": "human",
+        "votes": {
+          "annotator_02": true,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": 4,
+          "annotator_01": 5,
+          "annotator_04": null,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110179,
+        "title": "死亡之诗（之二：采摘葵花）",
+        "person": "海子",
+        "origin": "human",
+        "votes": {
+          "annotator_02": true,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": 4,
+          "annotator_01": 3,
+          "annotator_04": null,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110180,
+        "title": "眼睛",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": true,
+          "annotator_01": false,
+          "annotator_04": false,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": 3,
+          "annotator_01": null,
+          "annotator_04": null,
+          "annotator_06": 5
+        }
+      },
+      {
+        "sample_id": 110183,
+        "title": "马、火、灰，鼎",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": 2,
+          "annotator_06": 5
+        }
+      },
+      {
+        "sample_id": 110185,
+        "title": "秋天",
+        "person": "海子",
+        "origin": "human",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 4,
+          "annotator_04": 3,
+          "annotator_06": 2
+        }
+      },
+      {
+        "sample_id": 110186,
+        "title": "给我逝去的老祖母",
+        "person": "顾城",
+        "origin": "human",
+        "votes": {
+          "annotator_02": true,
+          "annotator_01": true,
+          "annotator_04": false,
+          "annotator_06": false
+        },
+        "quality": {
+          "annotator_02": 4,
+          "annotator_01": 5,
+          "annotator_04": null,
+          "annotator_06": null
+        }
+      },
+      {
+        "sample_id": 110194,
+        "title": "很久以来",
+        "person": "顾城",
+        "origin": "human",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 2,
+          "annotator_04": 3,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110195,
+        "title": "窗外的夏天",
+        "person": "顾城",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 3,
+          "annotator_04": 4,
+          "annotator_06": 4
+        }
+      },
+      {
+        "sample_id": 110196,
+        "title": "远方",
+        "person": "海子",
+        "origin": "ai",
+        "votes": {
+          "annotator_02": false,
+          "annotator_01": true,
+          "annotator_04": true,
+          "annotator_06": true
+        },
+        "quality": {
+          "annotator_02": null,
+          "annotator_01": 3,
+          "annotator_04": 3,
+          "annotator_06": 4
+        }
+      }
+    ]
+  },
+  "cat_b_human_nonpoem": {
+    "n": 6,
+    "samples": [
+      {
+        "sample_id": 110159,
+        "title": "民间艺人",
+        "person": "海子",
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110160,
+        "title": "太平洋上的贾宝玉",
+        "person": "海子",
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110170,
+        "title": "日出",
+        "person": "海子",
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110185,
+        "title": "秋天",
+        "person": "海子",
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110194,
+        "title": "很久以来",
+        "person": "顾城",
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110217,
+        "title": "君道曲",
+        "person": "李白",
+        "annotator": "annotator_06"
+      }
+    ]
+  },
+  "cat_c_ai_high_quality": {
+    "n": 32,
+    "samples": [
+      {
+        "sample_id": 110150,
+        "title": "大自然",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110154,
+        "title": "假如……",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110155,
+        "title": "幸福的一日 致秋天的花楸树",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110158,
+        "title": "有时",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110161,
+        "title": "大草原 大雪封山",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110162,
+        "title": "一只船累了",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110165,
+        "title": "酒杯",
+        "person": "海子",
+        "quality": 5,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110172,
+        "title": "怅望祁连（之一）",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110174,
+        "title": "我们去寻找一盏灯",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110175,
+        "title": "微微的希望",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110177,
+        "title": "假如……",
+        "person": "顾城",
+        "quality": 5,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110180,
+        "title": "眼睛",
+        "person": "顾城",
+        "quality": 5,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110183,
+        "title": "马、火、灰，鼎",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110189,
+        "title": "给萨福",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110190,
+        "title": "我唱自己的歌",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_01"
+      },
+      {
+        "sample_id": 110193,
+        "title": "秋日黄昏",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110195,
+        "title": "窗外的夏天",
+        "person": "顾城",
+        "quality": 4,
+        "annotator": "annotator_04"
+      },
+      {
+        "sample_id": 110196,
+        "title": "远方",
+        "person": "海子",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110198,
+        "title": "秋登巴陵望洞庭",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110202,
+        "title": "豫章行",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110211,
+        "title": "留别广陵诸公",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110213,
+        "title": "在水军宴赠幕府诸侍御永王军中",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110214,
+        "title": "怨歌行",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110219,
+        "title": "荆州贼乱临洞庭言怀作",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110226,
+        "title": "古风五十九首·其二十六",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110230,
+        "title": "咏山樽二首·其二",
+        "person": "李白",
+        "quality": 5,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110233,
+        "title": "答从弟幼成过西园见赠",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110234,
+        "title": "王右军",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110235,
+        "title": "江上望皖公山",
+        "person": "李白",
+        "quality": 5,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110237,
+        "title": "塞下曲六首·其四",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_02"
+      },
+      {
+        "sample_id": 110246,
+        "title": "淮海对雪赠傅霭",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      },
+      {
+        "sample_id": 110247,
+        "title": "别东林寺僧",
+        "person": "李白",
+        "quality": 4,
+        "annotator": "annotator_06"
+      }
+    ]
+  },
+  "cat_d_low_quality": {
+    "n": 37,
+    "samples": [
+      {
+        "sample_id": 110152,
+        "title": "冬天的雨",
+        "person": "海子",
+        "quality": 1,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110153,
+        "title": "分离",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110154,
+        "title": "假如……",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110155,
+        "title": "幸福的一日 致秋天的花楸树",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110158,
+        "title": "有时",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110159,
+        "title": "民间艺人",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110160,
+        "title": "太平洋上的贾宝玉",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110164,
+        "title": "风的梦",
+        "person": "顾城",
+        "quality": 1,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110165,
+        "title": "酒杯",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110167,
+        "title": "公爵的私生女",
+        "person": "海子",
+        "quality": 1,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110168,
+        "title": "夜晚 亲爱的朋友",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110169,
+        "title": "我感到魅惑",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110172,
+        "title": "怅望祁连（之一）",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110173,
+        "title": "在一个阿拉伯沙漠的村镇上",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110174,
+        "title": "我们去寻找一盏灯",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110176,
+        "title": "我们相信",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110177,
+        "title": "假如……",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110183,
+        "title": "马、火、灰，鼎",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110184,
+        "title": "无名“英雄”",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110185,
+        "title": "秋天",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110188,
+        "title": "雨",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110190,
+        "title": "我唱自己的歌",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110191,
+        "title": "汉俳",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110193,
+        "title": "秋日黄昏",
+        "person": "海子",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110194,
+        "title": "很久以来",
+        "person": "顾城",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110197,
+        "title": "酒杯：情诗一束",
+        "person": "海子",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110204,
+        "title": "在水军宴赠幕府诸侍御永王军中",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110208,
+        "title": "永王东巡歌十一首·其六",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110209,
+        "title": "过汪氏别业二首·其二",
+        "person": "李白",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110216,
+        "title": "襄阳曲四首·其二",
+        "person": "李白",
+        "quality": 1,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110221,
+        "title": "长相思",
+        "person": "李白",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110223,
+        "title": "双燕离",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110224,
+        "title": "宿清溪主人",
+        "person": "李白",
+        "quality": 2,
+        "origin": "human"
+      },
+      {
+        "sample_id": 110229,
+        "title": "洞庭醉后送绛州吕使君杲流澧州",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110231,
+        "title": "豫章行",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110238,
+        "title": "胡无人行",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      },
+      {
+        "sample_id": 110240,
+        "title": "留别贾舍人至二首·其二",
+        "person": "李白",
+        "quality": 2,
+        "origin": "ai"
+      }
+    ]
+  }
+}

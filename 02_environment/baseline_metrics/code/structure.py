@@ -58,8 +58,68 @@ def _cosine(a: np.ndarray, b: np.ndarray) -> float:
     return float(np.dot(a, b) / (na * nb))
 
 
+def semantic_units(text: str, min_chars: int = 12,
+                    sentence_end: str = "。！？；\n") -> list[str]:
+    """Group lines into semantically meaningful units (v8).
+
+    Strategy:
+      1. Split by blank lines first (natural stanza boundary).
+      2. Within each block, split at sentence-end punctuation (。！？；).
+      3. Within each resulting unit, ensure min_chars (merge with neighbor
+         if too short).
+      4. If only one block / no punctuation, fall back to whole text.
+
+    This addresses the v7 short-line problem: 5-char / 7-char classical
+    lines are too sparse to yield a stable topic vector. Grouping 2-3 lines
+    into a ~15-30 char unit gives a meaningful topic representation.
+    """
+    # 1) blank-line blocks
+    blocks = [b.strip() for b in text.split("\n\n") if b.strip()]
+    if not blocks:
+        return [text] if text.strip() else []
+    # 2) within each block, split at sentence-end punctuation
+    raw_units: list[str] = []
+    for blk in blocks:
+        cur = ""
+        for ch in blk:
+            cur += ch
+            if ch in "。！？；" or ch == "\n":
+                s = cur.strip()
+                if s:
+                    raw_units.append(s)
+                cur = ""
+        tail = cur.strip()
+        if tail:
+            raw_units.append(tail)
+    if not raw_units:
+        return [text] if text.strip() else []
+    # 3) merge short units into the next unit
+    merged: list[str] = []
+    pending = ""
+    for u in raw_units:
+        if pending:
+            combined = pending + " " + u
+            if len(combined) >= min_chars:
+                merged.append(combined)
+                pending = ""
+            else:
+                pending = combined
+        else:
+            pending = u
+    if pending:
+        # last unit, merge back if possible
+        if merged:
+            merged[-1] = merged[-1] + " " + pending
+        else:
+            merged.append(pending)
+    return merged if merged else [text]
+
+
 def paragraphs(text: str) -> list[str]:
-    """Split by blank lines first; if single block, fall back to lines."""
+    """Backward-compatible: original blank-line split.
+
+    For new code prefer `semantic_units(text)` which handles short lines.
+    """
     blocks = [p.strip() for p in text.split("\n\n") if p.strip()]
     if len(blocks) >= 2:
         return blocks
@@ -88,7 +148,7 @@ def paragraph_stats(text: str) -> dict[str, float]:
 
 
 def theme_analysis(text: str) -> dict[str, float]:
-    """Theme-level structure features.
+    """Theme-level structure features (v7 original).
 
     Returns:
       - theme_jump_mean:   mean cosine DISTANCE between adjacent paragraph
@@ -101,8 +161,24 @@ def theme_analysis(text: str) -> dict[str, float]:
                            word with the FIRST paragraph (theme persistence)
       - opening_closure:   cosine between first & last paragraph keyword
                            vectors (首尾呼应)
+
+    NOTE: per-paragraph; may be sparse on short-line poems (v7 issue).
     """
-    paras = paragraphs(text)
+    return _theme_features_impl(text, paragraphs)
+
+
+def theme_analysis_v8(text: str) -> dict[str, float]:
+    """Theme analysis v8: uses semantic_units (merged short lines).
+
+    Same 5 outputs but on denser semantic units (12+ chars each).
+    """
+    return _theme_features_impl(text, semantic_units)
+
+
+def _theme_features_impl(text: str,
+                         unit_fn) -> dict[str, float]:
+    """Shared impl for theme analysis."""
+    paras = unit_fn(text)
     if len(paras) < 2:
         return {"theme_jump_mean": 0.0, "theme_jump_cv": 0.0,
                 "theme_coherence": 1.0, "theme_cluster_ratio": 1.0,
@@ -159,15 +235,25 @@ def theme_analysis(text: str) -> dict[str, float]:
 
 
 def structure_v2_features(text: str) -> dict[str, float]:
-    """Full v2 struct features (paragraph stats + theme analysis)."""
+    """Full v2/v7 struct features (paragraph stats + theme v7 + theme v8).
+
+    v7 theme (per-paragraph) and v8 theme (semantic units) are both
+    included; downstream classifier can pick whichever discriminates better.
+    """
     ps = paragraph_stats(text)
-    th = theme_analysis(text)
-    return {**{f"para_{k}": v for k, v in ps.items()},
-            **{f"theme_{k}": v for k, v in th.items()}}
+    th_v7 = theme_analysis(text)
+    th_v8 = theme_analysis_v8(text)
+    n_units = float(min(len(semantic_units(text)) / 10.0, 1.0))
+    return {
+        **{f"para_{k}": v for k, v in ps.items()},
+        **{f"theme_{k}": v for k, v in th_v7.items()},
+        **{f"theme8_{k}": v for k, v in th_v8.items()},
+        "theme8_unit_count_norm": n_units,
+    }
 
 
 if __name__ == "__main__":
-    print("=== paragraph + theme analysis demo ===")
+    print("=== paragraph + theme analysis demo (v8 semantic units) ===")
     poem = "床前明月光\n疑是地上霜\n举头望明月\n低头思故乡"
     print("poem:", structure_v2_features(poem))
     news = ("本报记者报道，昨日央行宣布降准0.5个百分点，释放长期资金约1万亿元。\n"
@@ -177,3 +263,9 @@ if __name__ == "__main__":
     # 顾城《小巷》式
     gu = "小巷\n又弯又长\n没有门\n没有窗\n我拿把旧钥匙\n敲着厚厚的墙"
     print("modern poem:", structure_v2_features(gu))
+    print()
+    print("=== semantic_units ===")
+    from code.structure import semantic_units
+    print("poem units:", semantic_units(poem))
+    print("news units:", semantic_units(news))
+    print("gu units:", semantic_units(gu))

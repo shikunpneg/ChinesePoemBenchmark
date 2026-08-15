@@ -1,0 +1,16 @@
+[init] FEATURE_NAMES=64
+[load] ai_neg=32
+[feat] extracting train features ...
+  own features (1516, 64) in 179s
+[train] LR done, 69 dims, 184s
+=== val ===
+  predict 0/371
+  predict 100/371
+  predict 200/371
+  predict 300/371
+  val acc=0.9811 kappa=0.9374
+=== expert ===
+  predict 0/100
+  expert acc=0.9200 kappa=0.8400
+=== AI set ===
+  predict 0/209

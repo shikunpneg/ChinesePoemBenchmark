@@ -1,9 +1,9 @@
-# 指标计算原理文档（v7 全量版）
+# 指标计算原理文档（v8 全量版）
 
 > 本文件精确说明**每个指标从文本中如何计算**——原理 + 输入 + 输出。
-> 版本：v7（58 自有特征 + 5 baseline = 63 维）
+> 版本：v8（63 自有特征 + 5 baseline = 68 维）
 > 日期：2026-08-15
-> 代码位置：`02_environment/baseline_metrics/code/{meter,structure,imagery_ner,semantic,phonetics,features,phonetics}.py`
+> 代码位置：`02_environment/baseline_metrics/code/{meter,structure,imagery_ner,semantic,phonetics,features}.py`
 
 ---
 
@@ -90,8 +90,9 @@ D: ⊙仄仄平平    仄仄仄平平
 | `para_para_len_cv` | 段长变异系数 |
 | `para_para_var` | 段长标准差 |
 
-### 2.3 段落主题 NLP（新 5 个）
-**每段用 jieba 提取内容词**（长度≥2 且非停用词），组成**关键词 TF 向量**：
+### 2.3 段落主题 NLP（新 5 个 + v8 语义单元 6 个）
+
+**v7 每段用 jieba 提取内容词**（长度≥2 且非停用词），组成**关键词 TF 向量**：
 | 特征 | 原理 |
 |---|---|
 | `theme_theme_jump_mean` | 相邻段落关键词向量的**余弦距离**均值（主题跳了多少） |
@@ -100,7 +101,17 @@ D: ⊙仄仄平平    仄仄仄平平
 | `theme_theme_cluster_ratio` | 与首段共享≥1 个内容词的段落占比（主题持续性） |
 | `theme_opening_closure` | 首段 vs 末段关键词向量余弦（首尾呼应） |
 
-⚠️ **已知局限**：短行古诗每段只有 1-2 个词，向量稀疏，主题分析需合并行成「语义单元」——已记录待 v8 改进。
+⚠️ **v7 已知局限**：短行古诗每段只有 1-2 个词，向量稀疏。
+
+**v8 修复（theme8 族）**：`semantic_units()` 先把文本按空行/句末标点分段，再合并不足 12 字的段为语义单元：
+| 特征 | 原理 |
+|---|---|
+| `theme8_theme_jump_mean` | 语义单元间的余弦距离均值（同 v7 但单元更密） |
+| `theme8_theme_jump_cv` | 同上 CV |
+| `theme8_theme_coherence` | 1 − 单元词频熵归一化 |
+| `theme8_theme_cluster_ratio` | 与首单元共享词的单元占比 |
+| `theme8_opening_closure` | 首/末单元余弦 |
+| `theme8_unit_count_norm` | 语义单元数归一化（单元数/10，诗通常 2-4 单元） |
 
 ---
 
@@ -115,16 +126,20 @@ D: ⊙仄仄平平    仄仄仄平平
 每个意象词映射到一个**语义场**（如「月」→天象，「河」→山水）。
 
 ### 3.3 顺序逻辑分析（按文本从上到下）
+
+**v7**：实体相似度用字符重叠。
+**v8**：实体相似度用 **bge-small-zh 余弦**（解决「明月↔霜」无共同字问题；磁盘缓存 22201 个实体词，`entity_vec_cache.npz`）。
+
 | 特征 | 原理 |
 |---|---|
-| `img_ent_adj_sim_mean` | 相邻实体的**字符重叠相似度**均值 |
+| `img_ent_adj_sim_mean` | 相邻实体的语义相似度均值（v8=bge 余弦） |
 | `img_ent_adj_sim_cv` | 上述相似度变异系数 |
 | `img_field_switch_rate` | 相邻实体**切换意象场**的比例（跳跃） |
 | `img_field_return` | 返回**之前出现过**的意象场的比例（意象回环） |
-| `img_rupture_bridge` | 低相似（断裂）的相邻对中**共享意象场**的比例（断裂-引力） |
+| `img_rupture_bridge` | 低相似（v8 阈值 0.5）的相邻对中**共享意象场**的比例（断裂-引力） |
 | `img_logic_jump_score` | 复合：断裂率 × (0.5 + 0.5×bridge) |
 
-⚠️ **已知局限**：字符重叠相似度对「明月 vs 霜」这种**无共同字但语义近**的情况失效（=0）。**这正是语义向量要解决的**——v7 已接入 bge-small-zh，见第 5 节。
+**v8 语义实证**：明月↔霜 = 0.406（bge），字符重叠 = 0——语义向量正确捕捉同属天象意象的关联。
 
 ---
 

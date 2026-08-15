@@ -1,0 +1,49 @@
+{
+  "round": 1,
+  "stage": "stage1",
+  "timestamp": "2026-08-15T21:44:07",
+  "combo": {
+    "features": [
+      "form",
+      "lang",
+      "jump",
+      "music"
+    ],
+    "weights": {
+      "form": 0.4,
+      "lang": 0.3,
+      "jump": 0.2,
+      "music": 0.1
+    }
+  },
+  "consistency": {
+    "kappa": 0.9303286384976526,
+    "accuracy": 0.9784366576819407,
+    "f1_macro": 0.9651643192488263,
+    "n_val": 371,
+    "model_version": "v2",
+    "failures": [],
+    "combo": {
+      "features": [
+        "form",
+        "lang",
+        "jump",
+        "music"
+      ],
+      "weights": {
+        "form": 0.4,
+        "lang": 0.3,
+        "jump": 0.2,
+        "music": 0.1
+      }
+    }
+  },
+  "failures": [],
+  "check_agent": {
+    "pre": "PASS",
+    "post": "PASS",
+    "invalid_markers": [],
+    "violations": []
+  },
+  "artifacts": []
+}

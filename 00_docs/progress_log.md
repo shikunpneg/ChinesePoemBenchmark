@@ -297,3 +297,26 @@
 - 新特征族的真正价值在**可解释性**（合律度/意象场/韵母和谐）而非性能
 - 完整计算原理文档：`00_docs/metric_principles_v7.md`（已提交）
 - 提交 `30dd48b` 已推送 GitHub
+
+## 2026-08-15 · 任务 1/4 完成：歧义分析 + Harness 构建
+
+### 歧义样本分析（task6/task7 新标注）
+
+- 数据：`annotations_task6_r1.csv`（200 行，顾城/海子）+ `annotations_task7_r1.csv`（54 行，李白）
+- **标注者系统性偏差**：annotator_02 是诗率 62%（偏非诗），annotator_06 96%（偏诗）——差 34 个百分点
+- **4 类歧义**：
+  - A. 多标注者分歧 24 个（如 `#110150 海子「大自然」[非/非/非/诗]`）
+  - B. human 真诗被判非诗 6 个（5 个是 annotator_02 误判）
+  - C. AI 仿诗被判诗+quality≥4 共 32 个（**AI 骗过标注者**——阶段 2 黄金数据）
+  - D. 低质量 37 个
+- 存档：`04_memory/failures/ambiguity_task67.json` + `06_artifacts/reports/ambiguity_task67_report.md`
+
+### Harness 子 Agent 插件系统
+
+- 实现 `03_agent_harness/harness/`：
+  - `harness.py`：4 子 Agent（Explorer/Generator/Check/Memory）+ AccessGate 数据边界 + 闭环
+  - `plugin_metric_evaluator.py`：接入真实 v2 指标
+  - `run_harness.py`：启动器
+- 实测：v2 kappa=0.9303，2 轮 VALID，日志写入 `harness_round_<NNN>.json`
+- 越界检测验证：`AccessViolation` 正常抛出
+- 注意：修复了 harness 覆盖旧 round_001~003 的问题（用 git 恢复 + 前缀改名）

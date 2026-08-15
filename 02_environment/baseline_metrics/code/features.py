@@ -571,6 +571,10 @@ FEATURE_NAMES: list[str] = [
     "para_para_count", "para_para_len_mean", "para_para_len_cv", "para_para_var",
     "theme_theme_jump_mean", "theme_theme_jump_cv", "theme_theme_coherence",
     "theme_theme_cluster_ratio", "theme_opening_closure",
+    # structure v8: theme on semantic units (merged short lines)
+    "theme8_theme_jump_mean", "theme8_theme_jump_cv", "theme8_theme_coherence",
+    "theme8_theme_cluster_ratio", "theme8_opening_closure",
+    "theme8_unit_count_norm",
     # structure (original 3)
     "struct_n_lines", "struct_line_ending_punct", "struct_short_line_ratio",
     # logic-jump (v2: NER imagery)

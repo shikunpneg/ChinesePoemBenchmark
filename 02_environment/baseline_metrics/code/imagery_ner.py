@@ -1,39 +1,38 @@
-"""NER-based imagery extraction + sequential logic analysis (jump v2).
+"""NER-based imagery extraction + sequential logic analysis (jump v2/v8).
 
-Addresses user feedback on `jump` family:
-  - current jump only counts connectors + char density (too shallow)
-  - need: use NER to extract named entities / imagery (意象), then analyze
-    them IN TEXT ORDER to measure the LOGICAL JUMPINESS.
+v2: uses char-bigram overlap as entity similarity proxy.
+v8: uses bge-small-zh embeddings to compute entity semantic similarity —
+    this fixes the "明月 vs 霜" problem (no common chars but semantically close).
 
-NER approach (no external model, works offline):
+NER approach (no external model for extraction):
   - jieba.posseg for POS tags (n=名词, nr=人名, ns=地名, nt=组织, v=动词)
-  - imagery lexicon from `features.IMAGERY_WORDS` (自然/感官/情感词)
-  - entities = content words that are either (a) in imagery lexicon
-    or (b) tagged as n/nr/ns/nt/v by jieba posseg
+  - imagery lexicon from `FIELD_WORDS` (7 imagery fields)
 
 Sequential analysis:
   - extract entity sequence in text order
-  - compute adjacent-entity semantic distance using char-bigram overlap
-    (shallow proxy; upgraded to bge embeddings in the semantic phase)
+  - compute adjacent-entity semantic similarity:
+      * v7: char-bigram Jaccard (fast, shallow)
+      * v8: bge-small-zh cosine (semantic, slower but correct)
   - rupture = high distance with NO shared imagery field
   - bridge = adjacent entities share a semantic field (imagery family)
   - logic-jump score = mean rupture with bridge compensation
 
-Imagery fields (意象场): classify each imagery word into a semantic field
-to measure "jump between fields" vs "stay in one field":
-  - 自然天象: 日月星辰风云雨雪雷雾霜露霞虹
+Imagery fields (意象场):
+  - 天象: 日月星辰风云雨雪雷雾霜露霞虹
   - 山水: 山江河水湖海溪泉林树花草
   - 动物: 鸟鹰雁燕蝶蜂鱼龙马羊鹿
   - 季节: 春夏秋冬晨夜黄昏黎明
   - 情感: 愁思忆梦情心魂泪悲欢爱恨孤独寂寞
-  - 感官色彩: 红青白黄紫碧清寒暖暗
-  - 现代意象: 太阳月亮星星天空大地海洋火焰花朵村庄城市道路镜子影子
+  - 感官: 红青白黄紫碧清寒暖暗
+  - 现代: 太阳月亮星星天空大地海洋火焰花朵村庄城市道路镜子影子
 """
 
 from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
+
+import numpy as np
 
 import jieba
 import jieba.posseg as pseg
@@ -120,17 +119,87 @@ def _char_overlap(a: str, b: str) -> float:
     return len(inter) / max(len(sa | sb), 1)
 
 
-def imagery_logic_jump(text: str) -> dict[str, float]:
+# --- v8: bge-small-zh semantic similarity cache for entity pairs -------
+
+_ENTITY_VEC_CACHE: dict[str, np.ndarray | None] = {}
+_bge_model = None
+_BGE_OK = None
+_ENTITY_CACHE_PATH = None
+
+
+def _load_entity_cache():
+    """Load entity embeddings from disk cache (built by entity_cache.py)."""
+    global _ENTITY_CACHE_PATH
+    if _ENTITY_CACHE_PATH is None:
+        from pathlib import Path
+        _ENTITY_CACHE_PATH = (Path(__file__).resolve().parents[3]
+                             / "07_reproducibility" / "entity_vec_cache.npz")
+    if not _ENTITY_CACHE_PATH.exists():
+        return
+    try:
+        data = np.load(_ENTITY_CACHE_PATH, allow_pickle=True)
+        ws = data["words"]
+        vs = data["vecs"]
+        for w, v in zip(ws, vs):
+            _ENTITY_VEC_CACHE[str(w)] = v
+    except Exception as e:
+        import sys
+        print(f"[imagery_ner] entity cache load failed: {e}", file=sys.stderr)
+
+
+def _get_bge():
+    """Lazy load bge-small-zh. Returns None on failure."""
+    global _bge_model, _BGE_OK
+    if _BGE_OK is False:
+        return None
+    if _bge_model is None:
+        # Try disk cache first (fast path)
+        _load_entity_cache()
+        if len(_ENTITY_VEC_CACHE) > 100:
+            _BGE_OK = "cache_only"
+            return None
+        try:
+            from sentence_transformers import SentenceTransformer
+            _bge_model = SentenceTransformer("BAAI/bge-small-zh-v1.5")
+            _BGE_OK = True
+        except Exception:
+            _BGE_OK = False
+            return None
+    return _bge_model
+
+
+def _entity_vec(word: str) -> np.ndarray | None:
+    """Get bge embedding for an entity word (cached)."""
+    if word in _ENTITY_VEC_CACHE:
+        return _ENTITY_VEC_CACHE[word]
+    model = _get_bge()
+    if model is None:
+        return None
+    vec = model.encode([word], normalize_embeddings=True,
+                       convert_to_numpy=True, show_progress_bar=False)[0]
+    _ENTITY_VEC_CACHE[word] = vec
+    return vec
+
+
+def _entity_sim_bge(a: str, b: str) -> float | None:
+    """Semantic similarity between two entity words (None if no model)."""
+    va, vb = _entity_vec(a), _entity_vec(b)
+    if va is None or vb is None:
+        return None
+    return float(np.dot(va, vb))
+
+
+def imagery_logic_jump(text: str, use_semantic: bool = True) -> dict[str, float]:
     """Sequential imagery logic analysis.
 
     Returns:
-      - ent_adj_sim_mean:  mean adjacent-entity char-overlap similarity
+      - ent_adj_sim_mean:  mean adjacent-entity similarity
       - ent_adj_sim_cv:    CV of those similarities
       - field_switch_rate: fraction of adjacent entity pairs that CHANGE
                            imagery field (high = 跳跃 between fields)
       - field_return:      fraction of pairs returning to a PREVIOUS field
                            (诗的意象回环)
-      - rupture_bridge:    fraction of adjacent pairs with low overlap
+      - rupture_bridge:    fraction of adjacent pairs with low sim
                            (rupture) that STILL share a field (bridge)
       - logic_jump_score:  composite: mean rupture weighted by bridge
     """
@@ -148,22 +217,28 @@ def imagery_logic_jump(text: str) -> dict[str, float]:
     bridge_ok = 0
     seen_fields = set()
     prev_field = None
+
+    # rupture threshold: 0.3 for char-overlap, 0.5 for semantic cos
+    rupture_thr = 0.5 if use_semantic else 0.3
+
     for i in range(len(ents) - 1):
         a, b = ents[i], ents[i + 1]
-        sim = _char_overlap(a, b)
+        # semantic sim if requested & available, else char fallback
+        sim = None
+        if use_semantic:
+            sim = _entity_sim_bge(a, b)
+        if sim is None:
+            sim = _char_overlap(a, b)
         sims.append(sim)
         fa, fb = r.fields[i], r.fields[i + 1]
-        # field switch
         if fa and fb and fa != fb:
             switches += 1
-        # field return
         if fb and fb in seen_fields and prev_field != fb:
             returns += 1
         if fa:
             seen_fields.add(fa)
         prev_field = fb
-        # rupture (low char overlap) + bridge (shared field)
-        if sim < 0.3:
+        if sim < rupture_thr:
             ruptures += 1
             if fa and fb and fa == fb:
                 bridge_ok += 1
@@ -173,10 +248,8 @@ def imagery_logic_jump(text: str) -> dict[str, float]:
     std_sim = (sum((s - mean_sim) ** 2 for s in sims) / n_pairs) ** 0.5
     cv_sim = std_sim / mean_sim if mean_sim > 0 else 0.0
 
-    # logic-jump: rupture mean with bridge compensation
     rupture_rate = ruptures / n_pairs
     bridge_rate = (bridge_ok / ruptures) if ruptures else 0.0
-    # poem: rupture high but bridge high => "断裂但有引力"
     logic_jump = rupture_rate * (0.5 + 0.5 * bridge_rate)
 
     return {
@@ -189,10 +262,16 @@ def imagery_logic_jump(text: str) -> dict[str, float]:
     }
 
 
-def imagery_features(text: str) -> dict[str, float]:
-    """Composite imagery+Ner features."""
+def imagery_features(text: str, use_semantic: bool = True) -> dict[str, float]:
+    """Composite imagery+NER features.
+
+    v7 (use_semantic=False): char-overlap similarity between entities.
+    v8 (use_semantic=True):  bge-small-zh cosine between entities.
+
+    Note: use_semantic=True is slow at scale; use cache to speed up.
+    """
     r = extract_entities(text)
-    j = imagery_logic_jump(text)
+    j = imagery_logic_jump(text, use_semantic=use_semantic)
     return {
         "ner_entity_density": float(min(r.n_entities / max(len(text), 1) * 20.0, 1.0)),
         "ner_field_diversity": float(min(r.n_fields / 7.0, 1.0)),
@@ -202,21 +281,22 @@ def imagery_features(text: str) -> dict[str, float]:
 
 
 if __name__ == "__main__":
-    print("=== NER imagery demo ===")
+    print("=== NER imagery demo (v8 with bge semantics) ===")
     poem = "床前明月光\n疑是地上霜\n举头望明月\n低头思故乡"
     r = extract_entities(poem)
     print("poem entities:", r.entities)
     print("poem fields:", r.fields)
-    print("poem jump:", imagery_logic_jump(poem))
+    print("poem jump (v7 char-overlap):", imagery_logic_jump(poem, use_semantic=False))
+    print("poem jump (v8 bge-semantic): ", imagery_logic_jump(poem, use_semantic=True))
     print()
     news = "央行宣布降准0.5个百分点，银行股大涨，市场分析师表示流动性充裕"
     r2 = extract_entities(news)
     print("news entities:", r2.entities)
-    print("news jump:", imagery_logic_jump(news))
+    print("news jump (v7):", imagery_logic_jump(news, use_semantic=False))
+    print("news jump (v8):", imagery_logic_jump(news, use_semantic=True))
     print()
-    # 顾城
     gu = "小巷\n又弯又长\n没有门\n没有窗\n我拿把旧钥匙\n敲着厚厚的墙"
     r3 = extract_entities(gu)
     print("顾城 entities:", r3.entities)
-    print("顾城 fields:", r3.fields)
-    print("顾城 jump:", imagery_logic_jump(gu))
+    print("顾城 jump (v7):", imagery_logic_jump(gu, use_semantic=False))
+    print("顾城 jump (v8):", imagery_logic_jump(gu, use_semantic=True))
