@@ -1,0 +1,6 @@
+﻿version,val_kappa,ai_kappa,val_n,ai_n,note
+v1,0.983,—,120,0,R1 baseline (600 samples)
+v2,0.94,-0.012,371,209,+ lang + hard slice
+v3,0.94,-0.012,371,209,+ purity (no data)
+v4b,0.974,0.431,371,209,+ 32 AI garbage negs (iteration)
+v5,0.957,0.438,371,209,+ style + boost negs

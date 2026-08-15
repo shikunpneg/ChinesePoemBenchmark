@@ -1,0 +1,107 @@
+{
+  "stage": "stage2",
+  "round": 14,
+  "timestamp": "2026-08-15T15:47:10",
+  "method": "v6: drop struct+style families, retrain",
+  "v6_keep_idx": [
+    0,
+    1,
+    2,
+    3,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    22,
+    23,
+    24
+  ],
+  "v6_keep_features": [
+    "form_line_count",
+    "form_line_char_var",
+    "form_classical_match",
+    "form_n_lines_score",
+    "jump_connector_density",
+    "jump_char_per_line",
+    "jump_line_density_var",
+    "lang_imagery_density",
+    "lang_classical_marker_density",
+    "lang_prose_particle_density",
+    "lang_line_break_existence",
+    "purity_han_ratio",
+    "purity_no_english",
+    "purity_no_digit",
+    "purity_line_cleanliness",
+    "music_pattern_regularity",
+    "music_ping_ze_balance",
+    "music_final_char_ping_ratio"
+  ],
+  "v6_drop_features": [
+    "struct_n_lines",
+    "struct_line_ending_punct",
+    "struct_short_line_ratio",
+    "style_news_word_density",
+    "style_news_phrase_density",
+    "style_forum_filler_density",
+    "style_avg_para_len"
+  ],
+  "n_features_v6a": 23,
+  "n_features_v6b": 23,
+  "n_ai_neg": 32,
+  "val_results": {
+    "v2 (frozen)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9317952017648681
+    },
+    "v6a (drop 7 feats)": {
+      "acc": 0.9784366576819407,
+      "kappa": 0.9317952017648681
+    },
+    "v6b (drop 7 + AI negs)": {
+      "acc": 0.9838274932614556,
+      "kappa": 0.9477464788732395
+    }
+  },
+  "expert_results": {
+    "v2 (frozen)": {
+      "acc": 0.97,
+      "kappa": 0.94
+    },
+    "v6a (drop 7 feats)": {
+      "acc": 0.98,
+      "kappa": 0.96
+    },
+    "v6b (drop 7 + AI negs)": {
+      "acc": 0.96,
+      "kappa": 0.92
+    }
+  },
+  "ai_results": {
+    "v2 (frozen)": {
+      "acc": 0.8181818181818182,
+      "kappa": -0.011977573904179417,
+      "fp": 31,
+      "fn": 7
+    },
+    "v6a (drop 7 feats)": {
+      "acc": 0.8181818181818182,
+      "kappa": -0.011977573904179417,
+      "fp": 31,
+      "fn": 7
+    },
+    "v6b (drop 7 + AI negs)": {
+      "acc": 0.7751196172248804,
+      "kappa": 0.45857906630656453,
+      "fp": 0,
+      "fn": 47
+    }
+  },
+  "elapsed_sec": 61.9
+}

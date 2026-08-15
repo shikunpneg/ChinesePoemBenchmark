@@ -240,3 +240,31 @@
   - 真人类 IAA 0.82 (剔除噪声后)
   - 指标 vs 人类 Kappa 0.92 (剔除噪声后)
 - 路线图 M1-M6：M1-M2 已完成，M3-M6 待定
+
+## 2026-08-15 · 任务 3 完成：论文润色 + 图表生成
+
+- 生成 5 张图 + 3 张表：
+  - `docs/figures/fig1_version_evolution.png` — v1→v5 演进柱图
+  - `docs/figures/fig2_l2_ablation.png` — 7 族单独 + ablation
+  - `docs/figures/fig3_calibration.png` — 校准图（ECE 0.0071）
+  - `docs/figures/fig4_iaa_heatmap.png` — 4 标注者热力图
+  - `docs/figures/fig5_ai_poem_fp.png` — AI 诗假阳性
+  - `docs/tables/table_l2_ablation.csv`
+  - `docs/tables/table_metrics_per_dataset.csv`
+  - `docs/tables/table_iaa_filtered.csv`
+- 论文 v1.1：补 15 个完整 reference、问题定义、表格、figure 引用
+
+## 2026-08-15 · 任务 1 完成：v6 训练 + 任务评估完成（**失败，停止迭代**）
+
+按方案要求，v6 = 移除 `struct` + `style` 族（基于 R13 L2 ablation 建议）
+- v6a: drop 7 feats, no extra negs → val 0.932, expert 0.960
+- **v6b: drop 7 + 32 AI negs → val 0.948, expert 0.920, AI 0.459, fp=0**
+
+**FAILURE MODE**：v6b 在 Racter 上**完全失效**——50/50 全部误判
+- v2 acc on Racter: 0.960
+- v6b acc on Racter: 0.000
+- 原因：`struct_line_ending_punct` 和 `struct_short_line_ratio` 是识别 Racter（散文诗）的关键信号
+- **ablation 建议在 Racter 上崩塌**——单数据集改善掩盖了其他数据集失效
+
+**决策**：**v4b 仍是最优版本**，指标迭代停止
+- 详见：`06_artifacts/reports/stage2_round14_report.md`

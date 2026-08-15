@@ -1,0 +1,8 @@
+﻿family,n_features,single_kappa,single_acc,ablation_delta_kappa
+form,4,0.9477,0.9838,-0.0081
+struct,3,0.9203,0.9757,0.018
+jump,3,0.9296,0.9784,-0.0088
+lang,4,0.9203,0.9757,0.0
+purity,4,0.9186,0.9757,-0.0088
+style,4,0.911,0.973,-0.0173
+music,3,0.9016,0.9704,0.0
