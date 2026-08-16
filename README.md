@@ -209,7 +209,14 @@ MIT License. 详见 [LICENSE](LICENSE).
 托管在：
 
 > 🔗 **https://github.com/shikunpneg/shikunpunk-deepseek-harness**
-> 位置：`research/poetry-poetricity-harness/` + `.agents/skills/dsh-poetry-poetricity/`
+> 位置：`research/poetry-poetricity-harness/` + `research/poetry-poetricity-harness/dsh-plugin/` + `.agents/skills/dsh-poetry-poetricity/`
+
+**三层接入**：
+| 层 | 内容 | 用途 |
+|---|---|---|
+| ① `research/poetry-poetricity-harness/` | 独立 Python harness（4 子 Agent）| 本地运行：CLI 或 import |
+| ② `.agents/skills/dsh-poetry-poetricity/` | 仓库级 skill（无需构建）| DSH agent 自动发现 |
+| ③ `research/poetry-poetricity-harness/dsh-plugin/` | TS skill provider（已 `tsc --noEmit` + `tsc` 双验证编译通过）| 可发布 `@shikunpneg/dsh-poetry-poetricity` |
 
 harness 按项目方案《第一版.pdf》实现：
 - **§2.1 环境边界** → `AccessGate` 数据读写白名单 + CheckAgent 审计
@@ -218,7 +225,12 @@ harness 按项目方案《第一版.pdf》实现：
 - **§4.1 试跑闭环** → `run_round()` 观察→探索→评估→审计→记忆
 
 ```bash
-# 在 deepseek-harness 仓库内运行 harness 真实评估
+# 1) 在 deepseek-harness 仓库内运行 harness 真实评估
 cd research/poetry-poetricity-harness
 python run_harness.py --rounds 2 --model v2   # val kappa ≈ 0.93
+
+# 2) 构建 TS 插件（不污染主仓库）
+cd dsh-plugin
+pnpm exec tsc --noEmit -p tsconfig.json    # 类型检查（推荐）
+pnpm exec tsc -p tsconfig.json            # 生成 lib/（产物）
 ```
