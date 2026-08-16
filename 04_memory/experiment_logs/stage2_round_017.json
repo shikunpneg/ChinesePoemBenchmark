@@ -1,0 +1,19 @@
+{
+  "stage": "stage2",
+  "round": 17,
+  "timestamp": "2026-08-16",
+  "method": "v6 retest: drop struct+style families (L2 ablation recheck)",
+  "v6_keep_features": 57,
+  "v6_drop_features": ["struct_n_lines", "struct_line_ending_punct",
+                       "struct_short_line_ratio", "style_news_word_density",
+                       "style_news_phrase_density", "style_forum_filler_density",
+                       "style_avg_para_len"],
+  "results": {
+    "v6a_no_ai_neg": {"val_kappa": 0.9212, "expert_kappa": 0.9200,
+                      "val_acc": 0.9757, "expert_acc": 0.9600},
+    "v6b_with_ai_neg": {"val_kappa": 0.9374, "expert_kappa": 0.8400,
+                        "val_acc": 0.9811, "expert_acc": 0.9200},
+    "v4b_baseline": {"val_kappa": 0.974, "expert_kappa": 0.940}
+  },
+  "conclusion": "v6 (drop struct+style) DOES NOT beat v4b on val+expert full eval. L2 ablation's 'drop struct/style is better' finding was val-only and did not generalize (expert kappa drops 0.94->0.84). v4b remains the frozen metric. Iteration STOPPED (指标失效后停止 per 方案 §3.1)."
+}

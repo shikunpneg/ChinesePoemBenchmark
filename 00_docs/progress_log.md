@@ -320,3 +320,22 @@
 - 实测：v2 kappa=0.9303，2 轮 VALID，日志写入 `harness_round_<NNN>.json`
 - 越界检测验证：`AccessViolation` 正常抛出
 - 注意：修复了 harness 覆盖旧 round_001~003 的问题（用 git 恢复 + 前缀改名）
+
+## 2026-08-16 · v6 重测（R17）：drop struct+style 未胜 v4b，停止迭代
+
+**背景**：L2 ablation（R13）曾显示 drop struct/style 使 val kappa +0.018/+0.017。
+本轮重测该结论是否推广到 val + expert 全评估。
+
+| 版本 | val kappa | expert kappa |
+|---|---|---|
+| **v4b（冻结最优）** | **0.974** | **0.940** |
+| v6a（drop 7, 无 AI neg）| 0.921 | 0.920 |
+| v6b（drop 7 + AI neg）| 0.937 | 0.840 |
+
+**结论**：v6 系列**均不如 v4b**。ablation 的「drop 更好」只在 val 单集成立，
+未推广（v6b expert 0.84 < v4b 0.94，Racter 崩塌再现）。
+**按方案 §3.1「指标失效后停止」→ v4b 保持冻结，迭代停止。**
+
+**环境修复**：pypinyin 缺失（清华镜像 403 + 官方源 SSL 失败），改用阿里云镜像装回。
+
+**交付**：`stage2_round_017.json`（结论记录）+ round_017 日志
