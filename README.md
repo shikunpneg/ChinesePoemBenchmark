@@ -7,6 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-v4b%20frozen-green.svg)]()
 [![GitHub](https://img.shields.io/badge/repo-ChinesePoemBenchmark-black.svg)](https://github.com/shikunpneg/ChinesePoemBenchmark)
+[![HF Models](https://img.shields.io/badge/HF_models-shikunpunk-orange.svg)](https://huggingface.co/shikunpunk)
 
 ---
 
@@ -355,13 +356,44 @@ python harness.py                               # 4 子 Agent + 闭环 + 越界�
 
 ### 5.2 HuggingFace 模型
 
-- **[BAAI/bge-small-zh-v1.5](https://huggingface.co/BAAI/bge-small-zh-v1.5)**：语义向量特征族（semantic / ner_img）使用的嵌入模型。
+本项目全部模型托管于 **[huggingface.co/shikunpunk](https://huggingface.co/shikunpunk)** 组织：
+
+**诗歌判断模型（LLM 判断基线，与结构指标互补）**
+
+| 模型 | 说明 |
+|---|---|
+| [poetry-judge-qwen2.5-1.5b-cn](https://huggingface.co/shikunpunk/poetry-judge-qwen2.5-1.5b-cn) | 基于 Qwen2.5-1.5B-Instruct 的 QLoRA 4bit 微调，Rationale Distillation 策略（2400 条判断理由 SFT）；200 条评测集准确率 **90.00%**（基线 53.50%） |
+| [poetry-judge-qwen2.5-1.5b-cn-neutral](https://huggingface.co/shikunpunk/poetry-judge-qwen2.5-1.5b-cn-neutral) | 中性 prompt 改进版 |
+
+**诗歌生成模型（Benchmark AI 仿诗池的风格来源）**
+
+| 模型 | 说明 |
+|---|---|
+| [Qwen2.5-3B-LiBai](https://huggingface.co/shikunpunk/Qwen2.5-3B-LiBai) | 李白风格：王琦注本《李太白全集》878 首亲笔诗 QLoRA SFT（严格正文边界截断 + 评注剥离） |
+| [Qwen2.5-3B-GuCheng](https://huggingface.co/shikunpunk/Qwen2.5-3B-GuCheng) / [Qwen2.5-3B-Haizi](https://huggingface.co/shikunpunk/Qwen2.5-3B-Haizi) / [Qwen2.5-3B-Haizi-CN](https://huggingface.co/shikunpunk/Qwen2.5-3B-Haizi-CN) | 顾城 / 海子（中英）风格 |
+| [Qwen3.8-27B-GuCheng](https://huggingface.co/shikunpunk/Qwen3.8-27B-GuCheng) / [Qwen3.8-27B-Haizi](https://huggingface.co/shikunpunk/Qwen3.8-27B-Haizi) | 27B 更大规模版本 |
+| [Qwen1.5-7B-Poem-SFT](https://huggingface.co/shikunpunk/Qwen1.5-7B-Poem-SFT) | 通用诗歌 SFT |
+
+**语义向量模型（特征族依赖，第三方）**
+
+- **[BAAI/bge-small-zh-v1.5](https://huggingface.co/BAAI/bge-small-zh-v1.5)**：semantic / ner_img 特征族使用的嵌入模型。
   24M 参数 / 512 维 / 中文，CPU 可跑。用于「断裂-引力」语义相似度（如「明月↔霜」余弦 0.406）与语义单元主题分析。
 
 ### 5.3 数据集
 
-- 本仓库的 Benchmark 数据目录结构见 [4.1 仓库结构](#41-仓库结构) 与 [4.6 数据依赖](#46-数据依赖)。
-- 原始数据（诗歌集 / 标注 / AI 仿诗池）通过 `02_environment/data_registry/README.md` 只读引用，计划发布至 HuggingFace Datasets（链接就绪后补充）。
+**HuggingFace Datasets（[shikunpunk 组织](https://huggingface.co/shikunpunk)）**
+
+| 数据集 | 说明 |
+|---|---|
+| [poetry-judge-dataset](https://huggingface.co/datasets/shikunpunk/poetry-judge-dataset) | 诗歌判断 SFT 数据（含判断理由，用于训练 judge 模型） |
+| [poetry-judge-dataset-neutral](https://huggingface.co/datasets/shikunpunk/poetry-judge-dataset-neutral) | 中性 prompt 版本 |
+| [haizi-poetry-dataset](https://huggingface.co/datasets/shikunpunk/haizi-poetry-dataset) | 海子诗歌数据集（用于 Qwen2.5-3B-Haizi 微调） |
+| [libai-poetry-dataset](https://huggingface.co/datasets/shikunpunk/libai-poetry-dataset) | 李白诗歌数据集（用于 Qwen2.5-3B-LiBai 微调） |
+
+**本仓库数据**
+
+- Benchmark 数据目录结构见 [4.1 仓库结构](#41-仓库结构) 与 [4.6 数据依赖](#46-数据依赖)。
+- 原始数据（诗歌集 / 标注 / AI 仿诗池）通过 `02_environment/data_registry/README.md` 只读引用。
 
 ### 5.4 关联仓库
 
