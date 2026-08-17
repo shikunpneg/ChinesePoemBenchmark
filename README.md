@@ -73,7 +73,7 @@
 
 整个 Harness 在 `03_agent_harness/harness/`，对应方案《第一版.pdf》§2-§4：
 
-![Harness 架构](docs/figures/fig_harness_architecture.png)
+![Harness 架构](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig_harness_architecture.png)
 
 | 子 Agent | 类 | 职责 |
 |---|---|---|
@@ -283,12 +283,12 @@ Benchmark 的「AI 仿诗池」（`ChineseHardJudgePoem`）由 LLM 以「你是�
 
 ### 3.7 子指标族级分析（L2）与 IAA
 
-![L2 子指标](docs/figures/fig2_l2_ablation.png)  ![IAA 热力图](docs/figures/fig4_iaa_heatmap.png)
+![L2 子指标](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig2_l2_ablation.png)  ![IAA 热力图](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig4_iaa_heatmap.png)
 
 - `form`（行数 / 古典格式）是最重要的单族（单独 Kappa 0.948）；`struct`/`style` 单独评估弱，但**删掉会引发灾难性回归**（Racter 崩塌）。
 - 每个标注者都有 ~30% 的高置信错误（关键词匹配偏差 + 古典诗盲区）；**剔除噪声后，指标 ≈ 干净人类**。
 
-![AI 仿诗假阳性](docs/figures/fig5_ai_poem_fp.png)  ![校准](docs/figures/fig3_calibration.png)
+![AI 仿诗假阳性](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig5_ai_poem_fp.png)  ![校准](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig3_calibration.png)
 
 ---
 
@@ -330,9 +330,9 @@ Benchmark 的「AI 仿诗池」（`ChineseHardJudgePoem`）由 LLM 以「你是�
 
 驱动了 v1 → v8 共 8 个指标版本、17 轮实验 + Stage 2 闭环，最终在 **v4b** 收敛 + Stage 1 自动化搜索找到 **v4c**（37 维族组合）。
 
-![完整实验流程](docs/figures/fig_experiment_flow.png)
+![完整实验流程](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig_experiment_flow.png)
 
-![版本演进](docs/figures/fig1_version_evolution.png)
+![版本演进](https://raw.githubusercontent.com/shikunpneg/HumanAlignedPoeticity-/main/docs/figures/fig1_version_evolution.png)
 
 | 版本 | 改动 | val Kappa | AI 诗 Kappa | expert Kappa | 备注 |
 |---|---|---|---|---|---|
