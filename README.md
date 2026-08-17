@@ -19,7 +19,7 @@
 
 1. [我们做了什么：一个自动化科研流程](#1-我们做了什么一个自动化科研流程)
 2. [Harness 自动化科研系统（核心）](#2-harness-自动化科研系统核心)
-3. [一次验证：指标 vs 人类一致性](#3-一次验证指标-vs-人类一致性)
+3. [最新迭代日志 + 验证证据 + 生成诗歌展示](#3-最新迭代日志--验证证据--生成诗歌展示)
 4. [方法学：特征库与迭代闭环](#4-方法学特征库与迭代闭环)
 5. [相关资源](#5-相关资源)
 
@@ -41,7 +41,7 @@
 │  → 结论：在 v2 切片上特征选择几乎无收益                    │
 └─────────────────────────────────────────────────────────┘
                           ↓
-┌─────────────────────────────────────────────────────────┐
+�─────────────────────────────────────────────────────────┐
 │  Stage 2：人类一致性验证（闭环核心）                       │
 │  GeneratorAgent 生成 AI 高相似度仿诗                       │
 │  CheckAgent 防止数据越界 / 规则绕过                       │
@@ -73,24 +73,17 @@
 
 整个 Harness 在 `03_agent_harness/harness/`，对应方案《第一版.pdf》§2-§4：
 
-```
-┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│  Explorer    │  │  Generator    │  │   Check      │  │   Memory     │
-│  Agent       │  │   Agent       │  │   Agent      │  │   Agent      │
-├──────────────�  ├──────────────┤  ├──────────────┤  ├──────────────┤
-│  特征组合搜索 │  │ AI 仿诗生成  │  │  数据越界审计  │ │ 实验日志     │
-│  （4 策略）  │  │ 相似度提升    │  │  规则绕过审计  │ │ 失败样本沉淀 │
-└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘
-         ↓                ↓                ↓                ↓
-              ┌───────────────────────────────────────┐
-              │      AccessGate（边界强制）          │
-              │  读：poetry-judge-train / 标注库 / AI 仿诗池  │
-              │  写：04_memory / 05_experiments / 06_artifacts  │
-              └───────────────────────────────────────┘
-```
+![Harness 架构](docs/figures/fig_harness_architecture.png)
+
+| 子 Agent | 类 | 职责 |
+|---|---|---|
+| 探索 Agent | `ExplorerAgent` | 指标组合搜索：提出特征组合 → 评估与人类一致性 → 迭代 |
+| 生成 Agent | `GeneratorAgent` | AI 仿诗生成：动态提高相似度 → 收集困难样本 |
+| 审计 Agent | `CheckAgent` | 数据越界 / 规则绕过审计 → 标 INVALID |
+| 记忆 Agent | `MemoryAgent` | 实验日志 / 失败样本 / 违规规则沉淀 |
 
 **关键设计**：
-- **AccessGate**：读写白名单，越界抛 `AccessViolation` → CheckAgent 标 INVALID
+- **AccessGate**：读写白名单（读：poetry-judge-train / 标注库 / AI 仿诗池；写：04_memory / 05_experiments / 06_artifacts），越界抛 `AccessViolation` → CheckAgent 标 INVALID
 - **RoundRecord**：每轮 `harness_round_<NNN>.json` + checkpoint + best_combo 持久化
 - 运行闭环：`observe → explore → pre-check → evaluate → reflect → post-check → remember`
 
@@ -143,11 +136,47 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 
 ---
 
-## 3. 一次验证：指标 vs 人类一致性
+## 3. 最新迭代日志 + 验证证据 + 生成诗歌展示
 
-> **核心验证目标**：证明我们构建的指标与人类对"诗 / 非诗"的判断**高度一致**，且这种一致性在 AI 高相似度仿诗下**不崩溃**。
+### 3.1 最新迭代日志（2026-08-17）
 
-### 3.1 三套基准数据集上的一致性
+```
+08-17 14:27  Stage 1 自动化：exhaust 8192 族组合搜索启动
+            策略：exhaust, patience=8192 (不早停，完整遍历)
+            warmup: 84s (加载数据 + bge 模型)
+
+08-17 14:30  round   1  | kappa=0.9005 |  4 族 (meter+para+theme+theme8) ★ best
+            round   2  | kappa=0.9195 | +style  (5 族, 22 维)             ★ best
+            round   4  | kappa=0.9288 | +ner_img (6 族, 35 维, greedy local best)
+            round 226  | kappa=0.9387 | -style, +struct+jump (7 族, 37 维) ★ GLOBAL BEST
+            round 228..8192  | 全 ≤ 0.9387 (未超 best)
+
+            [Stage 1 结论]
+            exhaust 找到全局最优 = meter+para+theme+theme8+struct+ner_img+jump
+            mask kappa 0.9387 > greedy 0.9288 (+0.0099)
+
+08-17 14:35  Stage 2：v4c 在 v2 corpus + 32 AI 反例训练真实评估
+            v4c (37 维) 真实重训：val Kappa = 0.9557
+            v4c AI 诗假阳性 = 0/209 ✓ (与 v4b 同)
+
+08-17 14:35  跨标注者一致性监测：合并 5 标注者 1577 条 + AI 诗 339 条
+            训练：仅用 annotator_06 的 32 反例（与 v4b 原训练一致）
+            v4b val 0.9466 / v4c val 0.9557
+            v4b AI 集 0.1226 / v4c AI 集 0.1927  (fn=130/92)
+            v4b AI·06子集 0.2359 / v4c AI·06子集 0.3739  (fp 都 = 0 ✓)
+
+            [Stage 2 结论]
+            v4c 通过 0.95 阈值 ✓
+            跨标注者上 v4c 优于 v4b（0.1927 vs 0.1226）
+            AI 假阳性保持 0 — 核心能力未退化
+            假阴性上升暴露标注者分歧（annotator_01 vs 06）
+
+08-17 14:35  README + harness 代码 → GitHub 两个仓库推送 ✓
+            HumanAlignedPoeticity-  commit 46d15f9
+            ChinesePoemBenchmark    commit 46d15f9
+```
+
+### 3.2 三套基准数据集上的一致性
 
 | 数据集 | 人类标注数 | v4b Quadratic Kappa |
 |---|---|---|
@@ -160,7 +189,7 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 > - 验证集 0.974 + 专家集 0.940 → **指标 ≈ 干净人类**（剔噪后 IAA 0.822）
 > - AI 仿诗假阳性 0 → **指标不会把"混入英文的 AI 诗"误判为诗**（这是结构指标的根本边界，被 v4b 的 32 AI 反例训练样本修复）
 
-### 3.2 新标注数据验证（2026-08-17）
+### 3.3 新标注数据验证（2026-08-17）
 
 合并 **5 位标注者**（annotator_01/02/04/05/06）共 **1577 条标注**，其中 **AI 诗 339 条**：
 
@@ -175,7 +204,7 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 2. **AI 诗假阳性保持 0**——v4b/v4c 的核心能力（识别 AI 垃圾诗）在跨标注者上**未退化**
 3. **假阴性上升暴露标注者分歧**——v4b 把 46% 人类标"是诗"的 AI 诗判非诗。**根源不是指标，而是标注者分歧**（annotator_01 vs annotator_06 对"AI 诗是否为诗"存在系统性差异）
 
-### 3.3 人类标注者的真实一致性（IAA）
+### 3.4 人类标注者的真实一致性（IAA）
 
 通过连入生产标注库（109,369 样本 / 4 标注者），我们测出：
 
@@ -188,7 +217,61 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 > **关键发现**：**剔除标注噪声后，指标甚至超过干净人类多数票（0.924 > 0.822）**——
 > 这意味着"诗性"指标可以作为**比单个标注者更稳定**的"诗性代理"，与论文 §1.1 的"诗性 = 特定人类群体的代理"论点一致。
 
-### 3.4 案例：指标"夹带英文 AI 诗"的失效与修复
+### 3.5 生成诗歌展示（AI 仿诗 vs 人类原诗对照）
+
+Benchmark 的「AI 仿诗池」（`ChineseHardJudgePoem`）由 LLM 以「你是诗人 X」提示词生成，模仿李白/顾城/海子等诗人。以下为生成示例（`generated`）与对应的人类原诗（`real_text`）：
+
+**示例 1：海子风格《草原上》**
+
+```text
+—— AI 生成 ——                         —— 人类原诗（海子）——
+我从远方赶来                         在赤裸的高高的草原上
+来到这神秘的草原                     我相信这一切：
+                                     我的脚，一颗牝马的心
+草原上只有天空和日头                   两道犁沟，大麦和露水
+草原上只有神和神的儿子
+                                     在那高高的草原上，白云浮动
+在草棵上端坐了千年                     我相信天才，耐心和长寿
+成为永恒的山羊                         我相信有人正慢慢地艰难地爱上我
+在草原上端坐                           别的人不会，除非是你
+神的山羊                               我俩一见钟情
+神的儿子
+                                     在那高高的草原上
+今天我第一次来到这里                   赤裸的草原上
+神的儿子 今天的雨水                    我相信这一切
+落在我的头上 像远古的云朵               我相信我俩一见钟情
+```
+
+**示例 2：顾城风格《也许，我不该写信》**
+
+```text
+—— AI 生成 ——                         —— 人类原诗（顾城）——
+也许，我不该写信                     也许，我不该写信
+不应该                               我不该用眼睛说话
+去赞美蜂蝶                           我被粗大的生活
+那娇艳绚丽的花                       束缚在岩石上
+虽然它们使世界                       忍受着梦寐的干渴
+五彩缤纷                             忍受着拍卖商估价的
+使早晨的空气                         声音，在身上爬动
+洋溢着甜蜜的诱惑
+                                      我将被世界决定
+……                                  我将被世界决定
+                                     却从不曾决定世界
+我不该写信
+不应该                               我不该写信
+去赞美蜂蝶                           不应该，请你不要读它
+虽然我也会                           把它保存在火焰里
+不时从梦里醒来                       直到长夜来临
+把火热的泪水
+涂在素色的纸上
+写下：也许，我不该
+去赞美蜂蝶
+```
+
+> **观察**：AI 能模仿**意象与句式表层**（草原、神的儿子、反复咏叹），但缺少人类原诗中的**张力与转折**（顾城诗中「我将被世界决定，却从不曾决定世界」的悖论）。
+> 这正是「结构性指标能捕捉形式、难以捕捉诗意」的直观体现。
+
+### 3.6 案例：指标"夹带英文 AI 诗"的失效与修复
 
 **v2 在 AI 仿诗集上假阳性 31/209**——**全部是夹带英文/乱码的 AI 诗**：
 
@@ -198,14 +281,14 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 
 **人类一眼看出"混入英文不像诗"，但 v2 指标只看汉字结构被骗了**——这是结构性指标的**根本边界**。v4b 通过把 32 条"人类标非诗"的 AI 仿诗加入反例训练集，让 Logistic 回归学到"han_ratio（汉字占比）低 → 更可能是非诗"，**假阳性归零**。
 
-### 3.5 结论
+### 3.7 子指标族级分析（L2）与 IAA
 
-**指标 vs 人类一致性是可量化的、可由 Harness 自动验证的**。我们的 v4c 在：
+![L2 子指标](docs/figures/fig2_l2_ablation.png)  ![IAA 热力图](docs/figures/fig4_iaa_heatmap.png)
 
-- ✅ **验证集**（371 条人类诗）：0.9557（高于人类 IAA 0.822）
-- ✅ **专家集**（100 条）：0.940（v4b）
-- ✅ **AI 仿诗集·标注者06子集**：fp=0（不误判 AI 垃圾诗）
-- ⚠️ **跨标注者一致性**（AI 集全 5 标注者）：fn=92/280——**受标注者分歧影响**，需要后续 Stage 2 闭环动态收集失败样本来进一步训练
+- `form`（行数 / 古典格式）是最重要的单族（单独 Kappa 0.948）；`struct`/`style` 单独评估弱，但**删掉会引发灾难性回归**（Racter 崩塌）。
+- 每个标注者都有 ~30% 的高置信错误（关键词匹配偏差 + 古典诗盲区）；**剔除噪声后，指标 ≈ 干净人类**。
+
+![AI 仿诗假阳性](docs/figures/fig5_ai_poem_fp.png)  ![校准](docs/figures/fig3_calibration.png)
 
 ---
 
@@ -232,6 +315,8 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 | **phon** | 6 | **真实声学**：五度调值 / 元音开口度 / 韵母音位距离 |
 | **baseline** | 5 | bleu / bigram / tfidf（字符重叠参照） |
 
+> 注：本项目**弱化 Benchmark**——我们不是"做一个数据集 / 评估基准"为主的项目，而是**自动化探索指标与人类一致性**为主。Benchmark 数据集是**评估验证的载体**，不是核心产出。数据通过 `02_environment/data_registry/README.md` 只读引用（poetry-judge-train / eval-annotation / ChineseHardJudgePoem），项目产物（实验日志 / 失败样本 / 报告）统一落在 `04_memory/`、`05_experiments/`、`06_artifacts/`。
+
 ### 4.2 指标迭代闭环（核心工程范式）
 
 ```
@@ -244,6 +329,22 @@ python run_stage1_automated.py --max-rounds 8192 --strategy exhaust --patience 8
 ```
 
 驱动了 v1 → v8 共 8 个指标版本、17 轮实验 + Stage 2 闭环，最终在 **v4b** 收敛 + Stage 1 自动化搜索找到 **v4c**（37 维族组合）。
+
+![完整实验流程](docs/figures/fig_experiment_flow.png)
+
+![版本演进](docs/figures/fig1_version_evolution.png)
+
+| 版本 | 改动 | val Kappa | AI 诗 Kappa | expert Kappa | 备注 |
+|---|---|---|---|---|---|
+| v1 | 13 特征 + LR（600 样本） | 0.983 | — | — | 基线（简单切片） |
+| v2 | +lang 特征 + 难切片 | 0.940 | -0.012 | 0.940 | 冻结 |
+| v3 | +purity 特征（无反例） | 0.940 | -0.012 | — | **无效**（闭环教训） |
+| **v4b** | **+32 AI 垃圾负样本** | **0.974** | **0.431** | **0.940** | **迭代闭环·最优** |
+| v5 | +style 特征 | 0.957 | 0.438 | — | social/news 已 100% reject |
+| v6a/v6b | −struct −style | 0.921/0.937 | — | **0.920/0.840** | **Racter 崩塌，证伪** |
+| v7b | +meter/theme/ner/semantic/phonetics | 0.947 | 0.438 | 0.900 | 可解释性提升 |
+| v8b | +theme8 语义单元 + bge 实体 | 0.937 | — | 0.840 | 未超 v7b |
+| **v4c** | **37 维族组合（exhaust 搜索）+ 32 反例** | **0.9557 ✅** | 0.1927 (n=339) | — | **新数据验证通过阈值** |
 
 **方法学警示（R17）**：单数据集 L2 ablation 曾建议"删除 struct/style 更好"（val +0.018/+0.017），
 但 v6a/v6b 在全评估上均不如 v4b——**ablation 结论只在 val 单集成立，未推广到多数据集**。
