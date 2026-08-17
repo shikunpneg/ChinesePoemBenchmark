@@ -1,0 +1,18 @@
+{
+  "best_kappa": 0.9387080786386915,
+  "best_combo": {
+    "families": [
+      "meter",
+      "para",
+      "theme",
+      "theme8",
+      "struct",
+      "ner_img",
+      "jump"
+    ],
+    "strategy": "exhaust",
+    "iteration": 192
+  },
+  "best_round": 226,
+  "saved_at": "2026-08-17T14:39:33.868445"
+}

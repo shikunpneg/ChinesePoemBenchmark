@@ -71,3 +71,12 @@ checkpoints/
 /00_docs/web_restart_script.log
 /00_docs/web_start_*.log
 /00_docs/wmi_run.txt
+
+# --- Automated harness round logs (exhaust search produces thousands; keep the code, not the logs) ---
+/04_memory/experiment_logs/harness_round_*.json
+!/04_memory/experiment_logs/harness_round_001.json
+!/04_memory/experiment_logs/harness_round_002.json
+
+# --- Local experiment scripts (task A-D run scripts; results already captured in reports) ---
+/00_docs/task_*.py
+/00_docs/run_task_*.bat

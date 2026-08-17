@@ -1,43 +1,32 @@
 {
   "round": 2,
   "stage": "stage1",
-  "timestamp": "2026-08-15T21:45:39",
+  "timestamp": "2026-08-17T14:37:56",
   "combo": {
-    "features": [
-      "form",
-      "lang",
-      "jump",
-      "music"
+    "families": [
+      "meter"
     ],
-    "weights": {
-      "form": 0.4,
-      "lang": 0.3,
-      "jump": 0.2,
-      "music": 0.1
-    },
-    "iteration": 1
+    "strategy": "exhaust",
+    "iteration": 2
   },
   "consistency": {
-    "kappa": 0.9303286384976526,
-    "accuracy": 0.9784366576819407,
-    "f1_macro": 0.9651643192488263,
+    "kappa": 0.8836569774454227,
+    "accuracy": 0.9649595687331537,
+    "f1_macro": 0.9418109428726549,
     "n_val": 371,
     "model_version": "v2",
+    "active_families": [
+      "meter"
+    ],
+    "n_features_active": 7,
     "failures": [],
+    "eval_seconds": 0.007533500000135973,
     "combo": {
-      "features": [
-        "form",
-        "lang",
-        "jump",
-        "music"
+      "families": [
+        "meter"
       ],
-      "weights": {
-        "form": 0.4,
-        "lang": 0.3,
-        "jump": 0.2,
-        "music": 0.1
-      },
-      "iteration": 1
+      "strategy": "exhaust",
+      "iteration": 2
     }
   },
   "failures": [],

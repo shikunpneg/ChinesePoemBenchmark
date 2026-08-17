@@ -1,0 +1,83 @@
+{
+  "task": "D v3: golden training (annotator_06 only) + eval on all annotators",
+  "threshold": 0.95,
+  "n_total_annotations": 1577,
+  "n_ai_pool": 339,
+  "train_ai_neg_source": "annotator_06",
+  "active_families": [
+    "meter",
+    "para",
+    "theme",
+    "theme8",
+    "struct",
+    "ner_img",
+    "jump"
+  ],
+  "results": {
+    "v4b": {
+      "val": {
+        "name": "v4b val",
+        "n": 371,
+        "acc": 0.9838274932614556,
+        "kappa": 0.9465982151425008,
+        "f1_macro": 0.9732939821479989,
+        "fp": 5,
+        "fn": 1,
+        "pred_pos_rate": 0.8194070080862533
+      },
+      "ai_set_all": {
+        "name": "v4b ai_set_all",
+        "n": 339,
+        "acc": 0.56047197640118,
+        "kappa": 0.12263118584009314,
+        "f1_macro": 0.5087482129137044,
+        "fp": 19,
+        "fn": 130,
+        "pred_pos_rate": 0.49852507374631266
+      },
+      "ai_set_06": {
+        "name": "v4b ai_set_06",
+        "n": 149,
+        "acc": 0.5973154362416108,
+        "kappa": 0.23589743589743584,
+        "f1_macro": 0.5484848484848486,
+        "fp": 0,
+        "fn": 60,
+        "pred_pos_rate": 0.46308724832214765
+      }
+    },
+    "v4c": {
+      "val": {
+        "name": "v4c val",
+        "n": 371,
+        "acc": 0.9865229110512129,
+        "kappa": 0.9557416553336674,
+        "f1_macro": 0.9778684515074507,
+        "fp": 4,
+        "fn": 1,
+        "pred_pos_rate": 0.816711590296496
+      },
+      "ai_set_all": {
+        "name": "v4c ai_set_all",
+        "n": 339,
+        "acc": 0.6607669616519174,
+        "kappa": 0.19267327962890102,
+        "f1_macro": 0.5754054260104338,
+        "fp": 23,
+        "fn": 92,
+        "pred_pos_rate": 0.6224188790560472
+      },
+      "ai_set_06": {
+        "name": "v4c ai_set_06",
+        "n": 149,
+        "acc": 0.7315436241610739,
+        "kappa": 0.3739495798319328,
+        "f1_macro": 0.658256880733945,
+        "fp": 0,
+        "fn": 40,
+        "pred_pos_rate": 0.5973154362416108
+      }
+    }
+  },
+  "elapsed_seconds": 6698.607653141022
+}

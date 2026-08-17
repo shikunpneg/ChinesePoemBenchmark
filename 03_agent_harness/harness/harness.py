@@ -306,47 +306,177 @@ class CheckAgent(AgentPlugin):
 # ---------------------------------------------------------------------------
 
 class ExplorerAgent(AgentPlugin):
-    """探索 Agent：组合/调整指标特征，评估与人类一致性。"""
+    """探索 Agent：组合/调整指标特征，评估与人类一致性。
+
+    支持多种搜索策略：
+      - "iter"   ：原版（每轮加 1，仅迭代计数，演示用）
+      - "greedy" ：贪心前向/后向 + 随机扰动（Stage 1 自动化推荐）
+      - "random" ：纯随机族级采样
+      - "exhaust"：穷举 2^13 = 8192 组合（慢但完备）
+    """
 
     name = "explorer"
     role = "指标组合探索"
 
     def __init__(self, access: AccessGate, memory: MemoryAgent | None = None,
-                 evaluator: Callable | None = None):
+                 evaluator: Callable | None = None,
+                 strategy: str = "greedy",
+                 family_map: dict | None = None):
         super().__init__(access, memory)
         self.evaluator = evaluator  # fn(combo, split) -> consistency dict
-        self.explored_combos: list[dict] = []
+        self.strategy = strategy
+        self.family_map = family_map or {}
+        self.all_families = list(self.family_map.keys()) if self.family_map else []
+
+        # 状态
+        self.explored_combos: list[dict] = []     # [(combo, kappa, ...)]
+        self.history_by_combo: dict = {}           # tuple(families) -> kappa
         self.best_combo: dict | None = None
         self.best_kappa: float = -1.0
+        self._round_counter = 0
 
     def observe(self, state):
         return {
             "last_kappa": state.get("last_kappa"),
             "best_kappa": self.best_kappa,
             "n_explored": len(self.explored_combos),
+            "strategy": self.strategy,
         }
 
     def act(self, state):
-        """提出下一轮指标组合（基于上一轮结果）。"""
+        """提出下一轮指标组合（基于策略 + 历史）。"""
         combo = self._propose_combo(state)
         return {"action": "explore_combo", "combo": combo}
 
+    # ------------------------------------------------------------------
+    # 搜索策略实现
+    # ------------------------------------------------------------------
+
     def _propose_combo(self, state) -> dict:
-        # 简单策略：基于上轮 kappa 微调（真实探索可换成贝叶斯优化）
+        """根据 strategy 选下一个 combo。"""
+        if self.strategy == "iter":
+            return self._propose_iter(state)
+        elif self.strategy == "greedy":
+            return self._propose_greedy(state)
+        elif self.strategy == "random":
+            return self._propose_random(state)
+        elif self.strategy == "exhaust":
+            return self._propose_exhaust(state)
+        else:
+            raise ValueError(f"未知 strategy: {self.strategy}")
+
+    def _propose_iter(self, state) -> dict:
+        """原版：仅迭代计数（演示用）。"""
         prev = state.get("combo", {})
         if not prev:
-            return {"features": ["form", "lang", "jump", "music"],
-                    "weights": {"form": 0.4, "lang": 0.3, "jump": 0.2, "music": 0.1}}
+            return self._initial_combo()
         return {**prev, "iteration": prev.get("iteration", 0) + 1}
+
+    def _propose_greedy(self, state) -> dict:
+        """贪心前向/后向 + 随机扰动。
+
+        策略：
+        - 前 N/2 轮：尝试"加一"——选未启用的族加入 best_combo
+        - 后 N/2 轮：尝试"减一"——选已启用的族从 best_combo 移除
+        - 每轮加 5% 随机扰动（随机选操作）
+        """
+        self._round_counter += 1
+
+        # 第一轮：返回初始组合
+        if not self.best_combo or not self.explored_combos:
+            return self._initial_combo()
+
+        current_families = list(self.best_combo.get("families", []))
+        # 兼容旧 combo 格式
+        if not current_families and "features" in self.best_combo:
+            current_families = self.best_combo["features"]
+
+        all_fams = self.all_families or current_families
+        unused = [f for f in all_fams if f not in current_families]
+
+        # 5% 概率：完全随机
+        import random
+        if random.random() < 0.05:
+            return self._propose_random(state)
+
+        # 收集候选：加一 / 减一
+        candidates: list[list[str]] = []
+        for f in unused:
+            candidates.append(current_families + [f])
+        if len(current_families) > 1:
+            for f in current_families:
+                candidates.append([x for x in current_families if x != f])
+        # 兜底：保持现状
+        if not candidates:
+            candidates.append(current_families)
+
+        # 选一个**没探索过**的候选；优先加一（更可能提升）
+        random.shuffle(candidates)
+        # 排序：加一优先（前向选择更可能提升），减一其次
+        # 这里直接随机 + 跳过已探索
+        for cand in candidates:
+            key = tuple(sorted(cand))
+            if key not in self.history_by_combo:
+                return {"families": cand, "strategy": "greedy",
+                        "iteration": self._round_counter}
+        # 所有候选都已探索 → 保持当前最佳
+        return {"families": current_families, "strategy": "greedy-reset",
+                "iteration": self._round_counter}
+
+    def _propose_random(self, state) -> dict:
+        """纯随机族级采样：随机选 n 个族（n ∈ [1, 13]）。"""
+        import random
+        self._round_counter += 1
+        if not self.all_families:
+            return self._initial_combo()
+        n = random.randint(1, len(self.all_families))
+        return {"families": random.sample(self.all_families, n),
+                "strategy": "random", "iteration": self._round_counter}
+
+    def _propose_exhaust(self, state) -> dict:
+        """穷举：按二进制顺序遍历所有 2^13 个组合。"""
+        import itertools
+        self._round_counter += 1
+        all_fams = self.all_families
+        idx = (self._round_counter - 1) % (2 ** len(all_fams))
+        active = [all_fams[i] for i in range(len(all_fams)) if (idx >> i) & 1]
+        return {"families": active, "strategy": "exhaust",
+                "iteration": self._round_counter}
+
+    def _initial_combo(self) -> dict:
+        """初始 combo：4 族（论文 Stage 1 v2 验证过）。"""
+        initial = ["meter", "lang", "jump", "music"]
+        # 如果 family_map 没提供，用 self.all_families 里的前 4 个
+        if self.all_families:
+            initial = self.all_families[:4]
+        return {"families": initial, "strategy": self.strategy,
+                "iteration": 0}
 
     def reflect(self, result):
         kappa = result.get("kappa", -1)
+        combo = result.get("combo", {})
+        families = combo.get("families", [])
+        # 记录 history（按 sorted tuple 去重）
+        key = tuple(sorted(families))
+        prev_kappa = self.history_by_combo.get(key)
+        self.history_by_combo[key] = kappa
+        is_new_best = False
         if kappa > self.best_kappa:
             self.best_kappa = kappa
-            self.best_combo = result.get("combo")
-        self.explored_combos.append(result)
-        return {"new_best": result.get("combo") == self.best_combo,
-                "best_kappa": self.best_kappa}
+            self.best_combo = combo
+            is_new_best = True
+        self.explored_combos.append({
+            "round": self._round_counter,
+            "combo": combo,
+            "families": families,
+            "kappa": kappa,
+            "accuracy": result.get("accuracy"),
+            "f1_macro": result.get("f1_macro"),
+            "eval_seconds": result.get("eval_seconds"),
+            "is_new_best": is_new_best,
+        })
+        return {"new_best": is_new_best, "best_kappa": self.best_kappa,
+                "n_explored": len(self.explored_combos)}
 
     def evaluate(self, combo: dict, split: str = "val") -> dict:
         """调用评估器（注入）计算与人类一致性。"""
@@ -476,13 +606,30 @@ class Harness:
 
 def default_harness(data_registry: dict | None = None,
                     evaluator: Callable | None = None,
-                    generator: Callable | None = None) -> Harness:
-    """构建默认 4 子 Agent harness。"""
+                    generator: Callable | None = None,
+                    strategy: str = "greedy",
+                    family_map: dict | None = None) -> Harness:
+    """构建默认 4 子 Agent harness。
+
+    Args:
+        evaluator: 真实评估器（如 MaskedMetricEvaluator）
+        generator: 真实生成器（Stage 2 用，Stage 1 可传 None）
+        strategy: ExplorerAgent 的搜索策略（"greedy"/"random"/"exhaust"/"iter"）
+        family_map: 族→特征名映射（None 时从 family_map 模块默认加载）
+    """
     h = Harness(data_registry)
     memory = MemoryAgent(h.access)
     h.register(memory)
     h.register(CheckAgent(h.access, memory))
-    h.register(ExplorerAgent(h.access, memory, evaluator))
+    # 默认从 family_map 模块加载
+    if family_map is None:
+        try:
+            from harness.family_map import FEATURE_FAMILIES as _fm
+            family_map = _fm
+        except ImportError:
+            family_map = {}
+    h.register(ExplorerAgent(h.access, memory, evaluator,
+                             strategy=strategy, family_map=family_map))
     h.register(GeneratorAgent(h.access, memory, generator))
     return h
 
@@ -500,7 +647,7 @@ if __name__ == "__main__":
     h = default_harness(evaluator=_dummy_evaluator)
     for i in range(3):
         rec = h.run_round("stage1")
-        print(f"round {rec.round_id}: combo={rec.combo['features']} "
+        print(f"round {rec.round_id}: combo={rec.combo.get('families', rec.combo.get('features'))} "
               f"kappa={rec.consistency.get('kappa'):.2f} "
               f"pre={rec.check['pre']} post={rec.check['post']}")
     # 测试越界

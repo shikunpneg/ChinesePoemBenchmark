@@ -1,12 +1,12 @@
-# ChinesePoemBenchmark · 中文诗歌「诗歌性」自动评测指标
+# HumanAlignedPoeticity · 中文诗歌「诗歌性」自动评测指标
 
 > **项目定位**：构建并系统评估一个中文诗歌「诗歌性」自动评测指标（判断一段文本**是否为诗**的二元分类器），
 > 并沉淀出配套的 **Benchmark 数据集**、**指标迭代闭环协议** 与 **AI4S 多 Agent Harness**。
 
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-v4b%20frozen-green.svg)]()
-[![GitHub](https://img.shields.io/badge/repo-ChinesePoemBenchmark-black.svg)](https://github.com/shikunpneg/ChinesePoemBenchmark)
+[![Status](https://img.shields.io/badge/status-v4c%20green.svg)]()
+[![GitHub](https://img.shields.io/badge/repo-HumanAlignedPoeticity-black.svg)](https://github.com/shikunpneg/HumanAlignedPoeticity-)
 [![HF Models](https://img.shields.io/badge/HF_models-shikunpunk-orange.svg)](https://huggingface.co/shikunpunk)
 
 ---
@@ -203,7 +203,19 @@ Benchmark 的「AI 仿诗池」（`ChineseHardJudgePoem`）由 LLM 以「你是�
 | 剔除标注噪声后：指标 vs 干净人类多数票 | **0.924** |
 | 剔除标注噪声后：真实人类 IAA | **0.822**（含噪仅 0.50） |
 
-**版本演进（8 个版本 × 17 轮）：**
+**新标注数据验证（2026-08-17，合并 5 位标注者 1577 条标注，其中 AI 诗 339 条）：**
+
+| 模型 | val Kappa（阈值 0.95） | AI 集·全标注者 (n=339) | AI 集·标注者06 (n=149) |
+|---|---|---|---|
+| **v4b**（64 维 + 32 反例） | 0.9466 ❌ | 0.1226 / fp=19 / fn=130 | 0.2359 / **fp=0** / fn=60 |
+| **v4c**（37 维 + 32 反例） | **0.9557 ✅** | 0.1927 / fp=23 / fn=92 | **0.3739 / fp=0** / fn=40 |
+
+> **新数据监测发现**：合并 5 位标注者后，AI 仿诗集上的假阴性（fn）明显上升——v4b 将 46% 人类标"是诗"的 AI 诗判为非诗（v4c 为 33%）。
+> 根源是**标注者分歧**：annotator_01 / 02 与训练集标注者 annotator_06 对"AI 诗是否为诗"存在系统性分歧。
+> 在 annotator_06 子集上，v4b / v4c 的**假阳性仍保持 0**——核心能力未退化。
+> **v4c（37 维族组合）通过迭代阈值，且在所有 AI 子集上优于 v4b**，为当前推荐指标。
+
+**版本演进（8 个版本 × 17 轮 + v4c）：**
 
 ![版本演进](docs/figures/fig1_version_evolution.png)
 
@@ -217,6 +229,7 @@ Benchmark 的「AI 仿诗池」（`ChineseHardJudgePoem`）由 LLM 以「你是�
 | v6a/v6b | −struct −style | 0.921/0.937 | — | **0.920/0.840** | **Racter 崩塌，证伪** |
 | v7b | +meter/theme/ner/semantic/phonetics | 0.947 | 0.438 | 0.900 | 可解释性提升 |
 | v8b | +theme8 语义单元 + bge 实体 | 0.937 | — | 0.840 | 未超 v7b |
+| **v4c** | **37 维族组合（exhaust 搜索）+ 32 反例** | **0.9557 ✅** | 0.1927 (n=339) | — | **新数据验证通过阈值** |
 
 **「指标失效」案例（阶段 2 的核心发现）：**
 
